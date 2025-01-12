@@ -18,7 +18,7 @@ LEAKS = -D leaks=0
 Headers= $(shell find . -type f -name "*.hpp")
 SRC_FILES = $(shell find . -type f -name "*.cpp")
 
-OUTDIR = dist/outfiles
+OUTDIR = build/outfiles
 $(shell mkdir -p $(OUTDIR))
 OBJ_FILES = $(patsubst %.cpp,$(OUTDIR)/%.o,$(notdir $(SRC_FILES)))
 
@@ -33,8 +33,7 @@ $(OUTDIR)/%.o:%.cpp  $(Headers)
 all: $(NAME)
 
 $(NAME): $(OBJ_FILES)
-	@mkdir -p dist
-	@$(CC) ${CFLAGS} $(INC) $(OBJ_FILES) -o dist/${NAME}
+	@$(CC) ${CFLAGS} $(INC) $(OBJ_FILES) -o build/${NAME}
 	@printf "\r$(GREEN)Compilation done$(NO_COLOR)$(EOL)\n"
 
 clean:
