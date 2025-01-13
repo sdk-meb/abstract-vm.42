@@ -12,7 +12,7 @@ class Push : public IInstruction {
         Push& operator=(const Push& other) = default;
         virtual ~Push() = default;
 
-        void execute() override;
+        void execute(std::stack<__OperandType> & stack) override;
 };
 
 #endif // PUSH_HPP

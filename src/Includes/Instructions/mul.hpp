@@ -10,7 +10,7 @@ class Mul : public IInstruction {
         Mul& operator=(const Mul& other) = default;
         virtual ~Mul() = default;
 
-        void execute() override;
+        void execute(std::stack<__OperandType>& stack) override;
 };
 
 #endif // MUL_HPP

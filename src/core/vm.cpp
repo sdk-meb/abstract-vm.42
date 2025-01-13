@@ -16,10 +16,11 @@ absvm::absvm(const std::string &filename) {
 void absvm::processLines(std::istream& input) {
     std::string line;
     while (std::getline(input, line)) {
-        if (line == ";;")
+        if (line == ";;") // end of program
             break;
         if (not line.empty() and line[0] != ';')
             interpret(line);
+        // tarcking lines for debugging here
     }
 }
 
@@ -36,43 +37,43 @@ void absvm::interpret(const std::string &line) {
     static const std::unordered_map<std::string, std::function<void(const std::string&)>> commands = {
         {"push", [this](const std::string& val) {
             if (val.empty()) throw std::runtime_error("Error: Value required for push");
-            Push(val).execute();
+            Push(val).execute(this->stack);
         }},
         {"assert", [this](const std::string& val) {
             if (val.empty()) throw std::runtime_error("Error: Value required for assert");
-            Assert(val).execute();
+            Assert(val).execute(this->stack);
         }},
         {"pop", [this](const std::string& unval) {
             if (not unval.empty()) throw std::runtime_error("Error: Pop command takes no value");
-            Pop().execute();
+            Pop().execute(this->stack);
         }},
         {"dump", [this](const std::string& unval) {
             if (not unval.empty()) throw std::runtime_error("Error: Dump command takes no value");
-            Dump().execute();
+            Dump().execute(this->stack);
         }},
         {"add", [this](const std::string& unval) {
             if (not unval.empty()) throw std::runtime_error("Error: Add command takes no value");
-            Add().execute();
+            Add().execute(this->stack);
         }},
         {"sub", [this](const std::string& unval) {
             if (not unval.empty()) throw std::runtime_error("Error: Sub command takes no value");
-            Sub().execute();
+            Sub().execute(this->stack);
         }},
         {"mul", [this](const std::string& unval) {
             if (not unval.empty()) throw std::runtime_error("Error: Mul command takes no value");
-            Mul().execute();
+            Mul().execute(this->stack);
         }},
         {"div", [this](const std::string& unval) {
             if (not unval.empty()) throw std::runtime_error("Error: Div command takes no value");
-            Div().execute();
+            Div().execute(this->stack);
         }},
         {"mod", [this](const std::string& unval) {
             if (not unval.empty()) throw std::runtime_error("Error: Mod command takes no value");
-            Mod().execute();
+            Mod().execute(this->stack);
         }},
         {"print", [this](const std::string& unval) {
             if (not unval.empty()) throw std::runtime_error("Error: Print command takes no value");
-            Print().execute();
+            Print().execute(this->stack);
         }},
         {"exit", [](const std::string&) { 
             Exit();

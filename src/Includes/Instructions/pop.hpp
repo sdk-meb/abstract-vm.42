@@ -12,7 +12,7 @@ class Pop : public IInstruction {
         Pop& operator=(const Pop& other) = default;
         virtual ~Pop() = default;
 
-        void execute() override;
+        void execute(std::stack<__OperandType>& stack) override;
 };
 
 #endif // 

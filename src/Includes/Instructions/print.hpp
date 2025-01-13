@@ -10,7 +10,7 @@ class Print : public IInstruction {
         Print& operator=(const Print& other) = default;
         virtual ~Print() = default;
 
-        void execute() override;
+        void execute(std::stack<__OperandType>& stack) override;
 };
 
 #endif // PRINT_HPP

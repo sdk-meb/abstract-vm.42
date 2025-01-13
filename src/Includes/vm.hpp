@@ -34,7 +34,7 @@
  */
 class absvm {
     
-        std::stack<std::string> stack;
+        std::stack<__OperandType> stack;
         void shell();
         void processLines(std::istream& );
         void interpret(const std::string &);

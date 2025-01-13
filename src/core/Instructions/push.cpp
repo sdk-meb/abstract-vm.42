@@ -5,6 +5,6 @@ Push::Push(const std::string &val)
     (void)(val);
 }
 
-void Push::execute()
-{
+void Push::execute(std::stack<__OperandType>& stack) {
+    (void)stack;
 }

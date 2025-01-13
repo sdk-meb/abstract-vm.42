@@ -12,7 +12,7 @@ class Assert : public IInstruction {
         Assert& operator=(const Assert& other) = default;
         virtual ~Assert() = default;
 
-        void execute() override;
+        void execute(std::stack<__OperandType>& stack) override;
 };
 
 #endif // ASSERT_HPP
