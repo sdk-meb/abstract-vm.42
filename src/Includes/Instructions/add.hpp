@@ -12,7 +12,7 @@ class Add : public IInstruction {
         Add& operator=(const Add& other) = default;
         virtual ~Add() = default;
 
-        void execute(std::stack<__OperandType>& stack) override;
+        void execute(std::stack<OperandType>& stack) override;
 };
 
 #endif // 

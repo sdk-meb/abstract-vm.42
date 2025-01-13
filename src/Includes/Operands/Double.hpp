@@ -1,0 +1,25 @@
+#ifndef DOUBLE_HPP
+#define DOUBLE_HPP
+
+#include "IOperand.hpp"
+
+class Double : public IOperand {
+
+    double _value;
+    std::string _stringValue;
+
+    public:
+    Double(const std::string& value);
+    virtual ~Double(void);
+
+    virtual int getPrecision(void) const;
+    virtual OperandType getType(void) const;
+    virtual IOperand const* operator+(IOperand const& rhs) const;
+    virtual IOperand const* operator-(IOperand const& rhs) const;
+    virtual IOperand const* operator*(IOperand const& rhs) const;
+    virtual IOperand const* operator/(IOperand const& rhs) const;
+    virtual IOperand const* operator%(IOperand const& rhs) const;
+    virtual std::string const& toString(void) const;
+};
+
+#endif // DOUBLE_HPP

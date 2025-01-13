@@ -4,7 +4,7 @@
 #include <string>
 #include <stack>
 
-typedef int __OperandType; // TODO temporary
+typedef int OperandType; // TODO temporary
 class IInstruction {
     public:
         // Canonical form
@@ -14,7 +14,7 @@ class IInstruction {
         virtual ~IInstruction() = default;
 
         // Pure virtual function for execution
-        virtual void execute(std::stack<__OperandType> & stack) = 0;
+        virtual void execute(std::stack<OperandType> & stack) = 0;
 };
 
 #endif // INTERFACE_INSTRUCTIONS_HPP

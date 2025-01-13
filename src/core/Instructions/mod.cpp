@@ -1,6 +1,6 @@
 #include <Instructions/mod.hpp>
 
 
-void Mod::execute(std::stack<__OperandType>& stack) {
+void Mod::execute(std::stack<OperandType>& stack) {
 (void)stack;
 }

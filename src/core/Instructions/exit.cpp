@@ -1,6 +1,6 @@
 #include <Instructions/exit.hpp>
 
 
-void Exit::execute(std::stack<__OperandType>& stack) {
+void Exit::execute(std::stack<OperandType>& stack) {
 (void)stack;
 }

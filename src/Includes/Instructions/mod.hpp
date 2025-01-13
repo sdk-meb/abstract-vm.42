@@ -10,7 +10,7 @@ class Mod : public IInstruction {
         Mod& operator=(const Mod& other) = default;
         virtual ~Mod() = default;
 
-        void execute(std::stack<__OperandType>& stack) override;
+        void execute(std::stack<OperandType>& stack) override;
 };
 
 #endif // MOD_HPP

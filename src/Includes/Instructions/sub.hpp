@@ -10,7 +10,7 @@ class Sub : public IInstruction {
         Sub& operator=(const Sub& other) = default;
         virtual ~Sub() = default;
 
-        void execute(std::stack<__OperandType>& stack) override;
+        void execute(std::stack<OperandType>& stack) override;
 };
 
 #endif // SUB_HPP

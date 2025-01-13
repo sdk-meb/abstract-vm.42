@@ -10,7 +10,7 @@ class Div : public IInstruction {
         Div& operator=(const Div& other) = default;
         virtual ~Div() = default;
 
-        void execute(std::stack<__OperandType>& stack) override;
+        void execute(std::stack<OperandType>& stack) override;
 };
 
 #endif // DIV_HPP

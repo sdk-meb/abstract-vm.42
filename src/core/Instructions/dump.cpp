@@ -1,6 +1,6 @@
 #include <Instructions/dump.hpp>
 
 
-void Dump::execute(std::stack<__OperandType>& stack) {
+void Dump::execute(std::stack<OperandType>& stack) {
 (void)stack;
 }
