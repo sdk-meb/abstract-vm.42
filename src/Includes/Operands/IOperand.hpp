@@ -5,13 +5,12 @@
 
 enum class OperandType {
 
-    Int8,
-    Int16,
-    Int32,
-    Float,
-    Double
+    Int8 = 8,
+    Int16 = 16,
+    Int32 = 32,
+    Float = 64,
+    Double = 128 
 };
-
 
 class IOperand {
 
