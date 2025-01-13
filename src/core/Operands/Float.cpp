@@ -10,8 +10,8 @@ int Float::getPrecision(void) const {
     return -1; // TODO: Find out what the precision of a float is
 }
 
-OperandType Float::getType(void) const {
-    return OperandType::Float;
+eOperandType Float::getType(void) const {
+    return eOperandType::Float;
 }
 
 IOperand const* Float::operator+(IOperand const& rhs) const {

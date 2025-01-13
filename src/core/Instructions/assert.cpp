@@ -5,6 +5,6 @@ Assert::Assert(const std::string &val)
     (void)(val);
 }
 
-void Assert::execute(std::stack<OperandType>& stack) {
+void Assert::execute(std::stack<eOperandType>& stack) {
 (void)stack;
 }

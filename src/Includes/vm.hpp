@@ -34,11 +34,14 @@
  */
 class absvm {
     
-        std::stack<OperandType> stack;
+        std::stack<eOperandType> stack;
+        void interpret(const std::string &);
+
+    protected:
         void shell();
         void processLines(std::istream& );
-        void interpret(const std::string &);
         void interpretsource(const std::ifstream &);
+
     public:
         absvm();
         absvm(const std::string&);

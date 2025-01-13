@@ -1,6 +1,6 @@
 #include <Instructions/sub.hpp>
 
 
-void Sub::execute(std::stack<OperandType>& stack) {
+void Sub::execute(std::stack<eOperandType>& stack) {
 (void)stack;
 }

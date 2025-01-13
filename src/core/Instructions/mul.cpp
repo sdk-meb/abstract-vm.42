@@ -1,6 +1,6 @@
 #include <Instructions/mul.hpp>
 
 
-void Mul::execute(std::stack<OperandType>& stack) {
+void Mul::execute(std::stack<eOperandType>& stack) {
 (void)stack;
 }

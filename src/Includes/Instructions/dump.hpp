@@ -10,7 +10,7 @@ class Dump : public IInstruction {
         Dump& operator=(const Dump& other) = default;
         virtual ~Dump() = default;
 
-        void execute(std::stack<OperandType>& stack) override;
+        void execute(std::stack<eOperandType>& stack) override;
 };
 
 #endif // DUMP_HPP

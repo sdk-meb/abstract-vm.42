@@ -3,7 +3,7 @@
 // #include "../Factory/Factory.hpp"
 #include <stdexcept>
 
-void Add::execute(std::stack<OperandType>& stack) {
+void Add::execute(std::stack<eOperandType>& stack) {
     (void)stack;
     // if (Factory::getInstance().getStack().size() < 2) {
     //     throw std::runtime_error("Error: Not enough operands for add operation");

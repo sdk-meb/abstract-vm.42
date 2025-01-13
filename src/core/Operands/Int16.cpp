@@ -13,8 +13,8 @@ int Int16::getPrecision(void) const {
     return -1; // TODO: Find out what the precision of a IOperand is
 }
 
-OperandType Int16::getType(void) const {
-    return OperandType::Int16;
+eOperandType Int16::getType(void) const {
+    return eOperandType::Int16;
 }
 
 IOperand const* Int16::operator+(IOperand const& rhs) const {

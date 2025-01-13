@@ -11,8 +11,8 @@ int Int8::getPrecision(void) const {
     return 0;
 }
 
-OperandType Int8::getType(void) const {
-    return OperandType(0);
+eOperandType Int8::getType(void) const {
+    return eOperandType(0);
 }
 
 IOperand const* Int8::operator+(IOperand const& rhs) const {

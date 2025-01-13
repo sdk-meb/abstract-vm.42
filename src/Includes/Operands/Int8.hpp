@@ -15,7 +15,7 @@ class Int8 : public IOperand {
         virtual ~Int8();
 
         virtual int getPrecision() const;
-        virtual OperandType getType() const;
+        virtual eOperandType getType() const;
 
         virtual IOperand const* operator+(IOperand const&) const;
         virtual IOperand const* operator-(IOperand const&) const;

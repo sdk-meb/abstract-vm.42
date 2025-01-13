@@ -9,7 +9,7 @@ class Exit : public IInstruction {
         Exit(const Exit& other) = default;
         Exit& operator=(const Exit& other) = default;
 
-        void execute(std::stack<OperandType>& stack) override;
+        void execute(std::stack<eOperandType>& stack) override;
         ~Exit() { std::exit(0);};
 };
 

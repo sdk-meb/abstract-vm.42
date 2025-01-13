@@ -13,7 +13,7 @@ class Int16 : public IOperand {
     virtual ~Int16(void);
 
     virtual int getPrecision(void) const;
-    virtual OperandType getType(void) const;
+    virtual eOperandType getType(void) const;
     virtual IOperand const* operator+(IOperand const& rhs) const;
     virtual IOperand const* operator-(IOperand const& rhs) const;
     virtual IOperand const* operator*(IOperand const& rhs) const;

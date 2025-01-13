@@ -11,8 +11,8 @@ int Int32::getPrecision(void) const {
     return -1; // TODO: Find out what the precision of a IOperand is
 }
 
-OperandType Int32::getType(void) const {
-    return OperandType::Int32;
+eOperandType Int32::getType(void) const {
+    return eOperandType::Int32;
 }
 
 IOperand const* Int32::operator+(IOperand const& rhs) const {

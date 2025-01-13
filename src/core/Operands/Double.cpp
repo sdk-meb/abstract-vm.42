@@ -10,8 +10,8 @@ int Double::getPrecision(void) const {
     return -1; // TODO: Find out what the precision of a IOperand is
 }
 
-OperandType Double::getType(void) const {
-    return OperandType::Double;
+eOperandType Double::getType(void) const {
+    return eOperandType::Double;
 }
 
 IOperand const* Double::operator+(IOperand const& rhs) const {
