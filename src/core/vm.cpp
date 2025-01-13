@@ -36,47 +36,47 @@ void absvm::interpret(const std::string &line) {
     static const std::unordered_map<std::string, std::function<void(const std::string&)>> commands = {
         {"push", [this](const std::string& val) {
             if (val.empty()) throw std::runtime_error("Error: Value required for push");
-            // Instructions::Push(val).execute();
+            Push(val).execute();
         }},
         {"assert", [this](const std::string& val) {
             if (val.empty()) throw std::runtime_error("Error: Value required for assert");
-            // Instructions::Assert(val).execute();
+            Assert(val).execute();
         }},
         {"pop", [this](const std::string& unval) {
             if (not unval.empty()) throw std::runtime_error("Error: Pop command takes no value");
-            // Instructions::Pop().execute();
+            Pop().execute();
         }},
         {"dump", [this](const std::string& unval) {
             if (not unval.empty()) throw std::runtime_error("Error: Dump command takes no value");
-            // Instructions::Dump().execute();
+            Dump().execute();
         }},
         {"add", [this](const std::string& unval) {
             if (not unval.empty()) throw std::runtime_error("Error: Add command takes no value");
-            // Instructions::Add().execute();
+            Add().execute();
         }},
         {"sub", [this](const std::string& unval) {
             if (not unval.empty()) throw std::runtime_error("Error: Sub command takes no value");
-            // Instructions::Sub().execute();
+            Sub().execute();
         }},
         {"mul", [this](const std::string& unval) {
             if (not unval.empty()) throw std::runtime_error("Error: Mul command takes no value");
-            // Instructions::Mul().execute();
+            Mul().execute();
         }},
         {"div", [this](const std::string& unval) {
             if (not unval.empty()) throw std::runtime_error("Error: Div command takes no value");
-            // Instructions::Div().execute();
+            Div().execute();
         }},
         {"mod", [this](const std::string& unval) {
             if (not unval.empty()) throw std::runtime_error("Error: Mod command takes no value");
-            // Instructions::Mod().execute();
+            Mod().execute();
         }},
         {"print", [this](const std::string& unval) {
             if (not unval.empty()) throw std::runtime_error("Error: Print command takes no value");
-            // Instructions::Print().execute();
+            Print().execute();
         }},
         {"exit", [](const std::string&) { 
-            // Instructions::exit();
-         }}
+            Exit();
+        }},
     };
 
     std::istringstream iss(line);

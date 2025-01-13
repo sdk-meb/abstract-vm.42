@@ -12,17 +12,17 @@
 /**
  * @include Instructions
  */
-// #include <push.hpp>
-// #include <assert.hpp>
-// #include <pop.hpp>
-// #include <dump.hpp>
-// #include <add.hpp>
-// #include <sub.hpp>
-// #include <mul.hpp>
-// #include <div.hpp>
-// #include <mod.hpp>
-// #include <print.hpp>
-// #include <exit.hpp>
+#include <Instructions/push.hpp>
+#include <Instructions/assert.hpp>
+#include <Instructions/pop.hpp>
+#include <Instructions/dump.hpp>
+#include <Instructions/add.hpp>
+#include <Instructions/sub.hpp>
+#include <Instructions/mul.hpp>
+#include <Instructions/div.hpp>
+#include <Instructions/mod.hpp>
+#include <Instructions/print.hpp>
+#include <Instructions/exit.hpp>
 
 
 /**
