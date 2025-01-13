@@ -26,6 +26,16 @@
 
 
 /**
+ * @include Operands
+ */
+#include <Operands/Int8.hpp>
+#include <Operands/Int16.hpp>
+#include <Operands/Int32.hpp>
+#include <Operands/Float.hpp>
+#include <Operands/Double.hpp>
+
+
+/**
  * @brief The main class for the abstract vm
  * 
  * @details

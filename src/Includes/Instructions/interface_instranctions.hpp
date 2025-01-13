@@ -1,10 +1,10 @@
 #ifndef INTERFACE_INSTRUCTIONS_HPP
 #define INTERFACE_INSTRUCTIONS_HPP
 
+# include <Operands/IOperand.hpp>
 #include <string>
 #include <stack>
 
-typedef int eOperandType; // TODO temporary
 class IInstruction {
     public:
         // Canonical form
