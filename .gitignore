@@ -1,6 +1,10 @@
 .vscode
 
 # Compiled Object files
-**/.o
+**/*.o
 build/
 Abstractvm
+
+# logs
+.log
+**/*.log
