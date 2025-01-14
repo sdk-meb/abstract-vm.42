@@ -1,4 +1,5 @@
 #include <vm.hpp>
+#include <regex>
 
 absvm::absvm() { this->shell(); }
 
@@ -32,18 +33,58 @@ void absvm::interpretsource(const std::ifstream &source) {
     processLines(const_cast<std::ifstream&>(source));
 }
 
+
+/**
+ * @brief Interpret a value format 
+ * 
+ * @return
+ *  pair of eOperandType and value as string
+ * 
+ * @param value_format
+ * The value value_format must have one of the following form:
+ *  ◦ int8(n) : Creates an 8-bit integer with value n.
+ *  ◦ int16(n) : Creates a 16-bit integer with value n.
+ *  ◦ int32(n) : Creates a 32-bit integer with value n.
+ *  ◦ float(z) : Creates a float with value z.
+ *  ◦ double(z) : Creates a double with value z
+ */
+std::pair<eOperandType, std::string> absvm::interpretValueFormat(const std::string& value_format) {
+    std::regex pattern(R"(^\s*(int8|int16|int32|float|double)\((.*)\)\s*$)");
+    std::smatch matches; // TODO: l  
+
+    if (!std::regex_match(value_format, matches, pattern))
+        throw std::runtime_error("Error: Invalid value format: " + value_format);
+
+    static const std::array<std::string, types_count> types = {"int8", "int16", "int32", "float", "double"};
+
+    eOperandType operand_type;
+    for (size_t i = 0; i < types.size(); ++i) {
+        if (matches[1] == types[i]) {
+            operand_type = static_cast<eOperandType>(i);
+            operand_type = eOperandType(1 << i); // [8, 16, 32, 64, 128]
+            return {operand_type, matches[2]};
+        }
+    }
+    throw std::runtime_error("Error: Unknown type in: " + value_format);
+}
+
+
+
+
 void absvm::interpret(const std::string &line) {
 
     static const std::unordered_map<std::string, std::function<void(const std::string&)>> commands = { // TODO: l unordered_map function
         {"push", [this](const std::string& val) { // TODO: l [this] (...) {}
             if (val.empty())
                 throw std::runtime_error("Error: Value required for push");
-            // Push(this->stack).execute(/* TODO: create opearand (factory method) */);
+            const std::pair<eOperandType, std::string>& __pair =  this->interpretValueFormat(val);
+            Push(this->stack).execute( Factory().createOperand(__pair.first, __pair.second));
         }},
         {"assert", [this](const std::string& val) {
             if (val.empty())
                 throw std::runtime_error("Error: Value required for assert");
-            // Assert(this->stack).execute(val);
+            const std::pair<eOperandType, std::string>& __pair =  this->interpretValueFormat(val);
+            Assert(this->stack).execute( Factory().createOperand(__pair.first, __pair.second));
         }},
         {"pop", [this](const std::string& unval) {
             if (not unval.empty())
