@@ -6,7 +6,7 @@
 class Exit : public IInstruction {
 
     public:
-        Exit(std::stack<IOperand> & stack);
+        Exit(std::stack<const IOperand*> & stack);
         Exit(const Exit& other) = default;
 
         Exit& operator=(const Exit& other) = default;

@@ -8,7 +8,7 @@ class Pop : public IInstruction {
 
     public:
 
-        Pop(std::stack<IOperand> & stack);
+        Pop(std::stack<const IOperand*> & stack);
         Pop(const Pop& other) = default;
 
         Pop(const std::string& val);

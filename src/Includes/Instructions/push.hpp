@@ -6,14 +6,12 @@
 class Push : public IInstruction {
 
     public:
-        Push(std::stack<IOperand> & stack);
-        Push(const Push& other) = default;
+        Push(std::stack<const IOperand*> & stack);
 
         Push(const std::string& val);
-        Push& operator=(const Push& other) = default;
-        virtual ~Push() = default;
+        void execute(const IOperand* val) ;
 
-        void execute(const IOperand* val) override;
+        void execute() {};
 };
 
 #endif // PUSH_HPP

@@ -9,7 +9,7 @@ Factory::Factory(Factory const & src) {
 }
 
 Factory & Factory::operator=(Factory const & rhs) {
-    (void)rhs;
+    (void)rhs;// TODO: 
     return *this;
 }
 IOperand const * Factory::createInt8(std::string const & value) const {

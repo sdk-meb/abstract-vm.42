@@ -6,7 +6,7 @@
 class Print : public IInstruction {
 
     public:
-        Print(std::stack<IOperand> & stack);
+        Print(std::stack<const IOperand*> & stack);
         Print(const Print& other) = default;
 
         Print(const std::string& val);

@@ -6,7 +6,7 @@
 class Assert : public IInstruction {
 
     public:
-        Assert(std::stack<IOperand> & stack);
+        Assert(std::stack<const IOperand*> & stack);
         Assert(const Assert& other) = default;
 
         Assert(const std::string& val);
@@ -14,6 +14,7 @@ class Assert : public IInstruction {
         virtual ~Assert() = default;
 
         void execute(const IOperand*) override;
+        void execute() {};
 };
 
 #endif // ASSERT_HPP

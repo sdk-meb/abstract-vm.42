@@ -6,7 +6,7 @@
 class Div : public IInstruction {
 
     public:
-        Div(std::stack<IOperand> & stack);
+        Div(std::stack<const IOperand*> & stack);
         Div(const Div& other) = default;
 
         Div(const std::string& val);

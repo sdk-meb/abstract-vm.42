@@ -6,7 +6,7 @@
 class Mod : public IInstruction {
 
     public:
-        Mod(std::stack<IOperand> & stack);
+        Mod(std::stack<const IOperand*> & stack);
         Mod(const Mod& other) = default;
 
         Mod(const std::string& val);

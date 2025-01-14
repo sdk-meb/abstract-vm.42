@@ -8,7 +8,7 @@ class Add : public IInstruction {
 
     public:
 
-        Add(std::stack<IOperand> & stack);
+        Add(std::stack<const IOperand*> & stack);
         Add(const Add& other) = default;
 
         Add(const std::string& val);

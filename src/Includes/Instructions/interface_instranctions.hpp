@@ -8,10 +8,10 @@
 class IInstruction {
 
     protected:
-        std::stack<IOperand> &__stack;
+        std::stack<const IOperand*> &__stack;
 
     public:
-        IInstruction(std::stack<IOperand> & _stack) : __stack(_stack) {}
+        IInstruction(std::stack<const IOperand*> & _stack) : __stack(_stack) {}
         // Canonical form
         IInstruction(void) = default;
         IInstruction(const IInstruction&) = default;

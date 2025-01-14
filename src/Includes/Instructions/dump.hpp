@@ -7,7 +7,7 @@ class Dump : public IInstruction {
 
     public:
 
-        Dump(std::stack<IOperand> & stack);
+        Dump(std::stack<const IOperand*> & stack);
         Dump(const Dump& other) = default;
 
         Dump(const std::string& val);

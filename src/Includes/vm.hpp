@@ -33,6 +33,7 @@
 #include <Operands/Int32.hpp>
 #include <Operands/Float.hpp>
 #include <Operands/Double.hpp>
+#include <factory.hpp>
 
 
 /**
@@ -44,8 +45,9 @@
  */
 class absvm {
     
-        std::stack<IOperand> stack;
+        std::stack<const IOperand*> stack;
         void interpret(const std::string &);
+        std::pair<eOperandType, std::string> interpretValueFormat(const std::string& value_format); // Fix declaration
 
     protected:
         void shell();

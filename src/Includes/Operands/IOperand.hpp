@@ -12,6 +12,8 @@ enum class eOperandType {
     Double = 128 
 };
 
+#define types_count 5
+
 class IOperand {
 
     protected:

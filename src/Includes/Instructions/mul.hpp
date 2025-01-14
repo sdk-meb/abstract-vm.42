@@ -6,7 +6,7 @@
 class Mul : public IInstruction {
 
     public:
-        Mul(std::stack<IOperand> & stack);
+        Mul(std::stack<const IOperand*> & stack);
         Mul(const Mul& other) = default;
 
         Mul(const std::string& val);
@@ -14,7 +14,7 @@ class Mul : public IInstruction {
         virtual ~Mul() = default;
 
 
-        virtual void execute(const IOperand*) {};
+        virtual void execute(const IOperand*);
         void execute() override;
 };
 

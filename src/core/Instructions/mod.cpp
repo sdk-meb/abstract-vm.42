@@ -2,7 +2,7 @@
 
 
 
-Mod::Mod (std::stack<IOperand>& stack): IInstruction(stack) {}
+Mod::Mod (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 
 void Mod::execute () {
 

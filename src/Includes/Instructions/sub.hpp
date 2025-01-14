@@ -6,7 +6,7 @@
 class Sub : public IInstruction {
 
     public:
-        Sub(std::stack<IOperand> & stack);
+        Sub(std::stack<const IOperand*> & stack);
         Sub(const Sub& other) = default;
 
         Sub(const std::string& val);

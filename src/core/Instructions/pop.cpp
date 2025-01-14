@@ -1,6 +1,6 @@
 #include <Instructions/pop.hpp>
 
-Pop::Pop (std::stack<IOperand>& stack): IInstruction(stack) {}
+Pop::Pop (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 
 void Pop::execute () {
 
