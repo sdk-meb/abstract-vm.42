@@ -4,13 +4,17 @@
 #include "interface_instranctions.hpp"
 
 class Mod : public IInstruction {
+
     public:
-        Mod(void) = default;
+        Mod(std::stack<IOperand> & stack);
         Mod(const Mod& other) = default;
+
+        Mod(const std::string& val);
         Mod& operator=(const Mod& other) = default;
         virtual ~Mod() = default;
 
-        void execute(std::stack<eOperandType>& stack) override;
+        virtual void execute(const IOperand*) {};
+        void execute() override;
 };
 
 #endif // MOD_HPP

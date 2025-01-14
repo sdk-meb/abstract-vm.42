@@ -1,6 +1,8 @@
 #include <Instructions/mul.hpp>
 
 
-void Mul::execute(std::stack<eOperandType>& stack) {
-(void)stack;
+Mul::Mul (std::stack<IOperand>& stack): IInstruction(stack) {}
+
+void Mul::execute () {
+
 }

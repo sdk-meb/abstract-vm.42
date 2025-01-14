@@ -1,6 +1,7 @@
 #include <Operands/Double.hpp>
 
-Double::Double(const std::string& value): _stringValue (value) {
+Double::Double(const std::string& value) {
+    this->_stringValue = value;
     _value = std::stod(value);
 }
 

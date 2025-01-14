@@ -2,7 +2,8 @@
 
 
 
-Int16::Int16(const std::string& value): _stringValue(value) {
+Int16::Int16(const std::string& value) {
+    this->_stringValue = value;
     _value = static_cast<int16_t>(std::stoi(value));
 }
 

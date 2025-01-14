@@ -1,6 +1,8 @@
 #include <Instructions/sub.hpp>
 
 
-void Sub::execute(std::stack<eOperandType>& stack) {
-(void)stack;
+Sub::Sub (std::stack<IOperand>& stack): IInstruction(stack) {}
+
+void Sub::execute () {
+
 }

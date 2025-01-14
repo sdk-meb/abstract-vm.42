@@ -4,13 +4,18 @@
 #include "interface_instranctions.hpp"
 
 class Dump : public IInstruction {
+
     public:
-        Dump(void) = default;
+
+        Dump(std::stack<IOperand> & stack);
         Dump(const Dump& other) = default;
+
+        Dump(const std::string& val);
         Dump& operator=(const Dump& other) = default;
         virtual ~Dump() = default;
 
-        void execute(std::stack<eOperandType>& stack) override;
+        virtual void execute(const IOperand*) {};
+        void execute() override;
 };
 
 #endif // DUMP_HPP

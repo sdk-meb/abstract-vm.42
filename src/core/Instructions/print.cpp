@@ -1,6 +1,8 @@
 #include <Instructions/print.hpp>
 
 
-void Print::execute(std::stack<eOperandType>& stack) {
-(void)stack;
+Print::Print (std::stack<IOperand>& stack): IInstruction(stack) {}
+
+void Print::execute () {
+
 }

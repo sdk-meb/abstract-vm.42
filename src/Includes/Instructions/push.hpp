@@ -4,15 +4,16 @@
 #include "interface_instranctions.hpp"
 
 class Push : public IInstruction {
+
     public:
-        Push(void) = default;
+        Push(std::stack<IOperand> & stack);
         Push(const Push& other) = default;
 
         Push(const std::string& val);
         Push& operator=(const Push& other) = default;
         virtual ~Push() = default;
 
-        void execute(std::stack<eOperandType> & stack) override;
+        void execute(const IOperand* val) override;
 };
 
 #endif // PUSH_HPP

@@ -4,13 +4,18 @@
 #include "interface_instranctions.hpp"
 
 class Mul : public IInstruction {
+
     public:
-        Mul(void) = default;
+        Mul(std::stack<IOperand> & stack);
         Mul(const Mul& other) = default;
+
+        Mul(const std::string& val);
         Mul& operator=(const Mul& other) = default;
         virtual ~Mul() = default;
 
-        void execute(std::stack<eOperandType>& stack) override;
+
+        virtual void execute(const IOperand*) {};
+        void execute() override;
 };
 
 #endif // MUL_HPP

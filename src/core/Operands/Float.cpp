@@ -1,6 +1,7 @@
 #include <Operands/Float.hpp>
 
-Float::Float(const std::string& value): _stringValue (value) {
+Float::Float(const std::string& value) {
+    this->_stringValue = value;
     _value = std::stod(value);
 }
 

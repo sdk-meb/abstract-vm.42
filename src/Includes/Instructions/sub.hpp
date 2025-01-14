@@ -4,13 +4,17 @@
 #include "interface_instranctions.hpp"
 
 class Sub : public IInstruction {
+
     public:
-        Sub(void) = default;
+        Sub(std::stack<IOperand> & stack);
         Sub(const Sub& other) = default;
+
+        Sub(const std::string& val);
         Sub& operator=(const Sub& other) = default;
         virtual ~Sub() = default;
 
-        void execute(std::stack<eOperandType>& stack) override;
+        virtual void execute(const IOperand*) {};
+        void execute() override;
 };
 
 #endif // SUB_HPP

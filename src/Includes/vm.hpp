@@ -44,7 +44,7 @@
  */
 class absvm {
     
-        std::stack<eOperandType> stack;
+        std::stack<IOperand> stack;
         void interpret(const std::string &);
 
     protected:

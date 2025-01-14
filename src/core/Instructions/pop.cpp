@@ -1,6 +1,7 @@
 #include <Instructions/pop.hpp>
 
+Pop::Pop (std::stack<IOperand>& stack): IInstruction(stack) {}
 
-void Pop::execute(std::stack<eOperandType>& stack) {
-(void)stack;
+void Pop::execute () {
+
 }

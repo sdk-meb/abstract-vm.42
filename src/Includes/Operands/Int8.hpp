@@ -5,8 +5,6 @@
 
 class Int8 : public IOperand {
 
-        std::string _stringValue;
-
     protected:
         __int8_t    _value;
 

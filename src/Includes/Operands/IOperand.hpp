@@ -14,6 +14,9 @@ enum class eOperandType {
 
 class IOperand {
 
+    protected:
+        std::string _stringValue;
+
     public:
         virtual int getPrecision( void ) const = 0; // Precision of the type of the instance
         virtual eOperandType getType( void ) const = 0; // Type of the instance

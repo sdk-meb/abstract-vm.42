@@ -1,6 +1,8 @@
 #include <Instructions/dump.hpp>
 
 
-void Dump::execute(std::stack<eOperandType>& stack) {
-(void)stack;
+Dump::Dump (std::stack<IOperand>& stack): IInstruction(stack) {}
+
+void Dump::execute () {
+
 }

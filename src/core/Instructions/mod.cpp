@@ -1,6 +1,9 @@
 #include <Instructions/mod.hpp>
 
 
-void Mod::execute(std::stack<eOperandType>& stack) {
-(void)stack;
+
+Mod::Mod (std::stack<IOperand>& stack): IInstruction(stack) {}
+
+void Mod::execute () {
+
 }

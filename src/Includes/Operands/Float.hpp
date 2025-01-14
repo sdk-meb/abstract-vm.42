@@ -4,9 +4,9 @@
 #include "IOperand.hpp"
 
 class Float : public IOperand {
-    private:
+
+    protected:
         float _value;
-        std::string _stringValue;
 
     public:
         Float(const std::string& value);

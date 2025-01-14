@@ -1,6 +1,7 @@
 #include <Instructions/div.hpp>
 
+Div::Div (std::stack<IOperand>& stack): IInstruction(stack) {}
 
-void Div::execute(std::stack<eOperandType>& stack) {
-(void)stack;
+void Div::execute () {
+
 }

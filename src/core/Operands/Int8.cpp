@@ -1,7 +1,8 @@
 #include <Operands/Int8.hpp>
 
 
-Int8::Int8(const std::string& value) : _stringValue(value) {
+Int8::Int8(const std::string& value) {
+    this->_stringValue = value;
     _value = static_cast<int8_t>(std::stoi(value));
 }
 

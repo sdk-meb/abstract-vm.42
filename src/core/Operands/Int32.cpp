@@ -1,6 +1,7 @@
 #include <Operands/Int32.hpp>
 
-Int32::Int32(const std::string& value) : _stringValue(value) {
+Int32::Int32(const std::string& value) {
+    this->_stringValue = value;
     _value = std::stoi(value);
 }
 

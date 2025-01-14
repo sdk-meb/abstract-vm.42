@@ -4,13 +4,17 @@
 #include "interface_instranctions.hpp"
 
 class Exit : public IInstruction {
+
     public:
-        Exit(void) = default;
+        Exit(std::stack<IOperand> & stack);
         Exit(const Exit& other) = default;
+
         Exit& operator=(const Exit& other) = default;
 
-        void execute(std::stack<eOperandType>& stack) override;
-        ~Exit() { std::exit(0);};
+        ~Exit() override;
+
+        virtual void execute(const IOperand*) {};
+        void execute() override;
 };
 
 #endif // EXIT_HPP
