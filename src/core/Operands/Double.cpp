@@ -1,6 +1,8 @@
 #include <Operands/Double.hpp>
 
 Double::Double(const std::string& value) {
+
+    this->type = eOperandType::Double;
     this->_stringValue = value;
     _value = std::stod(value);
 }
@@ -12,7 +14,7 @@ int Double::getPrecision(void) const {
 }
 
 eOperandType Double::getType(void) const {
-    return eOperandType::Double;
+    return  this->type;
 }
 
 IOperand const* Double::operator+(IOperand const& rhs) const {

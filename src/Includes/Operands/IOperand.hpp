@@ -17,6 +17,7 @@ enum class eOperandType {
 class IOperand {
 
     protected:
+        eOperandType type;
         std::string _stringValue;
 
     public:

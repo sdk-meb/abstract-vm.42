@@ -13,10 +13,10 @@ class Factory {
         IOperand const *createDouble(std::string const &value) const;
 
     public:
-        Factory(void);
-        Factory(Factory const &src);
-        Factory &operator=(Factory const &rhs);
-        ~Factory(void);
+        Factory(void) = default;
+        Factory(Factory const &src) = default;
+        Factory &operator=(Factory const &rhs) = default;
+        ~Factory(void) = default;
 
         IOperand const *createOperand(eOperandType type, std::string const &value) const;
 };

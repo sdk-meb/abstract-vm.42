@@ -1,17 +1,5 @@
 # include <factory.hpp>
 
-Factory::Factory(void) {}
-
-Factory::~Factory(void) {}
-
-Factory::Factory(Factory const & src) {
-    *this = src;
-}
-
-Factory & Factory::operator=(Factory const & rhs) {
-    (void)rhs;// TODO: 
-    return *this;
-}
 IOperand const * Factory::createInt8(std::string const & value) const {
     return new Int8(value);
 }

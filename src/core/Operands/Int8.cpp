@@ -2,6 +2,8 @@
 
 
 Int8::Int8(const std::string& value) {
+
+    this->type = eOperandType::Int8;
     this->_stringValue = value;
     _value = static_cast<int8_t>(std::stoi(value));
 }
@@ -13,7 +15,7 @@ int Int8::getPrecision(void) const {
 }
 
 eOperandType Int8::getType(void) const {
-    return eOperandType(0);
+    return  this->type;
 }
 
 IOperand const* Int8::operator+(IOperand const& rhs) const {

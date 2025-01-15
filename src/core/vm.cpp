@@ -57,17 +57,12 @@ std::pair<eOperandType, std::string> absvm::interpretValueFormat(const std::stri
 
     static const std::array<std::string, types_count> types = {"int8", "int16", "int32", "float", "double"};
 
-    eOperandType operand_type;
-    for (size_t i = 0; i < types.size(); ++i) {
-        if (matches[1] == types[i]) {
-            operand_type = static_cast<eOperandType>(i);
-            operand_type = eOperandType(1 << i); // [8, 16, 32, 64, 128]
-            return {operand_type, matches[2]};
-        }
-    }
+    for (size_t i = 0; i < types.size(); ++i)
+        if (matches[1] == types[i])
+            return {eOperandType( i), matches[2]};
+
     throw std::runtime_error("Error: Unknown type in: " + value_format);
 }
-
 
 
 
@@ -78,7 +73,7 @@ void absvm::interpret(const std::string &line) {
             if (val.empty())
                 throw std::runtime_error("Error: Value required for push");
             const std::pair<eOperandType, std::string>& __pair =  this->interpretValueFormat(val);
-            Push(this->stack).execute( Factory().createOperand(__pair.first, __pair.second));
+            Push(this->stack).execute( Factory().createOperand( __pair.first, __pair.second));
         }},
         {"assert", [this](const std::string& val) {
             if (val.empty())
