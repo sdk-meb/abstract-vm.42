@@ -24,7 +24,9 @@ absvm::absvm(const std::string &filename) {
 }
 
 void absvm::processLines(std::istream& input) {
+
     std::string line;
+
     while (std::getline(input, line)) {
         if (line == ";;") // end of program
             break;
@@ -32,6 +34,7 @@ void absvm::processLines(std::istream& input) {
             interpret(line);
         // TODO tarcking lines for debugging here
     }
+    // TODO: no exit found , throw error
 }
 
 void absvm::shell() {
@@ -133,22 +136,22 @@ void absvm::interpret(const std::string &line) {
         {"sub", [this](const std::string& unval) {
             if (not unval.empty())
                 throw std::runtime_error("Error: Sub command takes no value");
-            Sub(this->stack).execute();
+            Sub(this->stack).execute();//  TODO: implemetation
         }},
         {"mul", [this](const std::string& unval) {
             if (not unval.empty())
                 throw std::runtime_error("Error: Mul command takes no value");
-            Mul(this->stack).execute();
+            Mul(this->stack).execute();//  TODO: implemetation
         }},
         {"div", [this](const std::string& unval) {
             if (not unval.empty())
                 throw std::runtime_error("Error: Div command takes no value");
-            Div(this->stack).execute();
+            Div(this->stack).execute();//  TODO: implemetation
         }},
         {"mod", [this](const std::string& unval) {
             if (not unval.empty())
                 throw std::runtime_error("Error: Mod command takes no value");
-            Mod(this->stack).execute();
+            Mod(this->stack).execute();//  TODO: implemetation
         }},
         {"print", [this](const std::string& unval) {
             if (not unval.empty())
