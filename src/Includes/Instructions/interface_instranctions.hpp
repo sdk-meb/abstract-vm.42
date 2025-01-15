@@ -4,6 +4,8 @@
 # include <Operands/IOperand.hpp>
 #include <string>
 #include <stack>
+#include <iostream>
+
 
 class IInstruction {
 
