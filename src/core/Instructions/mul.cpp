@@ -1,6 +1,10 @@
 #include <Instructions/mul.hpp>
 
 
-void Mul::execute(std::stack<__OperandType>& stack) {
-(void)stack;
+Mul::Mul (std::stack<const IOperand*>& stack): IInstruction(stack) {}
+
+void Mul::execute(const IOperand*) {};
+
+void Mul::execute () {
+
 }

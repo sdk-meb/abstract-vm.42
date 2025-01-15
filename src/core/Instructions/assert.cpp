@@ -1,10 +1,9 @@
 #include <Instructions/assert.hpp>
 
-Assert::Assert(const std::string &val)
-{
-    (void)(val);
-}
+Assert::Assert (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 
-void Assert::execute(std::stack<__OperandType>& stack) {
-(void)stack;
+
+void Assert::execute (const IOperand* val) {
+    (void) val;
+    // this->__stack.push(*val);
 }

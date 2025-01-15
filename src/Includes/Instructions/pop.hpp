@@ -7,12 +7,16 @@
 class Pop : public IInstruction {
 
     public:
-        Pop(void) = default;
+
+        Pop(std::stack<const IOperand*> & stack);
         Pop(const Pop& other) = default;
+
+        Pop(const std::string& val);
         Pop& operator=(const Pop& other) = default;
         virtual ~Pop() = default;
 
-        void execute(std::stack<__OperandType>& stack) override;
+        virtual void execute(const IOperand*) {};
+        void execute() override;
 };
 
 #endif // 

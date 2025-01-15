@@ -1,10 +1,7 @@
 #include <Instructions/push.hpp>
 
-Push::Push(const std::string &val)
-{
-    (void)(val);
-}
+Push::Push (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 
-void Push::execute(std::stack<__OperandType>& stack) {
-    (void)stack;
+void Push::execute (const IOperand* val) {
+    this->__stack.push(val);
 }

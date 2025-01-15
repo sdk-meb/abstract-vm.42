@@ -7,12 +7,16 @@
 class Add : public IInstruction {
 
     public:
-        Add(void) = default;
+
+        Add(std::stack<const IOperand*> & stack);
         Add(const Add& other) = default;
+
+        Add(const std::string& val);
         Add& operator=(const Add& other) = default;
         virtual ~Add() = default;
 
-        void execute(std::stack<__OperandType>& stack) override;
+        virtual void execute(const IOperand*) {};
+        void execute() override;
 };
 
 #endif // 
