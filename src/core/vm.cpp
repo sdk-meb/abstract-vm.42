@@ -3,6 +3,15 @@
 
 absvm::absvm() { this->shell(); }
 
+/** 
+ * @note ... # TODO: std::stack<std::unique_ptr<IOperand>> stack; or std::shared_ptr
+ */
+absvm::~absvm() {
+    for (; not this->stack.empty(); this->stack.pop()) {
+        delete this->stack.top();
+    }
+}
+
 absvm::absvm(const std::string &filename) {
     std::ifstream source;
 
@@ -73,18 +82,43 @@ void absvm::interpret(const std::string &line) {
             if (val.empty())
                 throw std::runtime_error("Error: Value required for push");
             const std::pair<eOperandType, std::string>& __pair =  this->interpretValueFormat(val);
-            Push(this->stack).execute( Factory().createOperand( __pair.first, __pair.second));
+            auto tmp_opetrand =  Factory().createOperand(__pair.first, __pair.second);
+            try {
+                Push(this->stack).execute(tmp_opetrand);
+                delete tmp_opetrand;
+            }
+            catch (const std::logic_error &e) {
+                delete tmp_opetrand;
+                std::cerr << e.what() << std::endl;
+                // TODO: tracing
+            }
         }},
         {"assert", [this](const std::string& val) {
             if (val.empty())
                 throw std::runtime_error("Error: Value required for assert");
             const std::pair<eOperandType, std::string>& __pair =  this->interpretValueFormat(val);
-            Assert(this->stack).execute( Factory().createOperand(__pair.first, __pair.second));
+            auto tmp_opetrand =  Factory().createOperand(__pair.first, __pair.second);
+            try {
+                Assert(this->stack).execute(tmp_opetrand);
+                delete tmp_opetrand;
+                // TODO: tracing succesed
+            }
+            catch (const std::logic_error &e) {
+                delete tmp_opetrand;
+                std::cerr << e.what() << std::endl;
+                // TODO: tracing || stop
+            }
         }},
         {"pop", [this](const std::string& unval) {
             if (not unval.empty())
                 throw std::runtime_error("Error: Pop command takes no value");
-            Pop(this->stack).execute();
+            try {
+                Pop(this->stack).execute();
+            }
+            catch (const std::logic_error &e) {
+                std::cerr << e.what() << std::endl;
+                // TODO: tracing || stop
+            }
         }},
         {"dump", [this](const std::string& unval) {
             if (not unval.empty())
@@ -94,7 +128,7 @@ void absvm::interpret(const std::string &line) {
         {"add", [this](const std::string& unval) {
             if (not unval.empty())
                 throw std::runtime_error("Error: Add command takes no value");
-            Add(this->stack).execute();
+            Add(this->stack).execute(); //  TODO: implemetation
         }},
         {"sub", [this](const std::string& unval) {
             if (not unval.empty())

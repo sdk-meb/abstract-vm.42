@@ -57,7 +57,7 @@ class absvm {
     public:
         absvm();
         absvm(const std::string&);
-        ~absvm() = default;
+        ~absvm();
 };
 
 
