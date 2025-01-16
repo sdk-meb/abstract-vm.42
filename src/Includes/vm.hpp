@@ -26,6 +26,17 @@
 
 
 /**
+ * @include Operands
+ */
+#include <Operands/Int8.hpp>
+#include <Operands/Int16.hpp>
+#include <Operands/Int32.hpp>
+#include <Operands/Float.hpp>
+#include <Operands/Double.hpp>
+#include <factory.hpp>
+
+
+/**
  * @brief The main class for the abstract vm
  * 
  * @details
@@ -34,15 +45,19 @@
  */
 class absvm {
     
-        std::stack<__OperandType> stack;
+        std::stack<const IOperand*> stack;
+        void interpret(const std::string &);
+        std::pair<eOperandType, std::string> interpretValueFormat(const std::string& value_format); // Fix declaration
+
+    protected:
         void shell();
         void processLines(std::istream& );
-        void interpret(const std::string &);
         void interpretsource(const std::ifstream &);
+
     public:
         absvm();
         absvm(const std::string&);
-        ~absvm() = default;
+        ~absvm();
 };
 
 
