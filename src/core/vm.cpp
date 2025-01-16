@@ -25,16 +25,15 @@ absvm::absvm(const std::string &filename) {
 
 void absvm::processLines(std::istream& input) {
 
-    std::string line;
+    for (std::string line; std::getline(input, line);) {
 
-    while (std::getline(input, line)) {
-        if (line == ";;") // end of program
-            break;
+        if (line == ";;")
+            break;; // TODO: return if it's eq to exit
         if (not line.empty() and line[0] != ';')
             interpret(line);
         // TODO tarcking lines for debugging here
     }
-    // TODO: no exit found , throw error
+    std::__throw_system_error(42);
 }
 
 void absvm::shell() {

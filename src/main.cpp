@@ -5,10 +5,15 @@ int main(int argc, char **argv) {
     try {
 
         if  (argc > 2)
-            throw std::runtime_error("Error: too many arguments");
+            throw std::invalid_argument("Error: too many arguments");
         else
             argc == 1 ? absvm() : absvm(argv[1]);
         return 0;
+    }
+    catch (const std::system_error& e) {
+
+        std::cerr << "Eroor: no exit command found!" << std::endl;
+        return e.code().value();
     }
     catch (const std::exception &e) {
 
