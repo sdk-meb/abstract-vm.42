@@ -12,7 +12,7 @@ GREEN = \033[0;32m
 NO_COLOR = \033[0m
 EOL= \033[0K
 
-CFLAGS = -Wall -Wextra -Werror  -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -Wno-error -fsanitize=address # TODO: no error just for diagnose files
 LEAKS = -D leaks=0
 
 Headers= $(shell find . -type f -name "*.hpp")
@@ -31,6 +31,9 @@ $(OUTDIR)/%.o:%.cpp  $(Headers)
 
 
 all: $(NAME)
+
+diagno: CFLAGS += -D DIAGNOSING
+diagno: $(NAME)
 
 $(NAME): $(OBJ_FILES)
 	@$(CC) ${CFLAGS} $(INC) $(OBJ_FILES) -o build/${NAME}
