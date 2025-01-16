@@ -25,8 +25,8 @@ OBJ_FILES = $(patsubst %.cpp,$(OUTDIR)/%.o,$(notdir $(SRC_FILES)))
 vpath %.cpp $(sort $(dir $(SRC_FILES)))
 
 $(OUTDIR)/%.o:%.cpp  $(Headers)
+	@printf "\r$(GREEN)Compiling $< ...$(NO_COLOR)$(EOL)"
 	@${CC} ${CFLAGS} $(INC)  -o $@ -c $< -D $(stat)
-	@printf "\r\r$(GREEN)Compiling $< ...$(NO_COLOR)$(EOL)\n"
 
 
 
@@ -43,6 +43,15 @@ clean:
 fclean: clean
 	@rm -f $(NAME)
 	@echo "$(RED)Executable removed$(NO_COLOR)$(EOL)"
+
+run: ${NAME}
+	@./build/${NAME}; \
+	EXIT_CODE=$$?; \
+	if [ $$EXIT_CODE -eq 0 ]; then \
+		echo "$(GREEN)Good By!$(NO_COLOR)"; \
+	else \
+		echo "$(RED)fail ($$EXIT_CODE)$(NO_COLOR)"; \
+	fi
 
 re: fclean all
 
