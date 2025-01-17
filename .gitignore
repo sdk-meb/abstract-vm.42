@@ -6,5 +6,6 @@ build/
 Abstractvm
 
 # logs
-.log
 **/*.log
+**/*.log.json
+Logs/
