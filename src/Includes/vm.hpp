@@ -37,6 +37,17 @@
 
 
 /**
+ *  @include diagnostics
+ */
+#include <diagnostics.hpp>
+
+/**
+ * @include utils
+ */
+#include <Utils/mode.hpp>
+
+
+/**
  * @brief The main class for the abstract vm
  * 
  * @details

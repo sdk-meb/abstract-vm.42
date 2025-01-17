@@ -5,7 +5,7 @@
 #include <string>
 #include <stack>
 #include <iostream>
-
+# include <Utils/mode.hpp>
 
 class IInstruction {
 

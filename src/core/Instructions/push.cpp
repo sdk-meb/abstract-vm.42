@@ -10,6 +10,8 @@ void Push::execute(const IOperand* val) {
     try {
         this->__stack.push(val);
     } catch (const std::exception&) {
+        throwgh ("Push::execute") __ca_tch("exception")
+
         std::__throw_bad_alloc();
     }
 }
