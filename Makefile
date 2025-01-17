@@ -1,7 +1,8 @@
 NAME = Abstractvm
 
-stat = Development
+stat = Debuging # Product, Test, Debuging, Development
 log_path = Logs
+DIAGNOSING = -DDIAGNOSING -DLOG_PATH=\"$(log_path)\"
 
 CC = c++ -std=c++23
 CURRENTDIR=$(shell pwd)
@@ -26,18 +27,14 @@ vpath %.cpp $(sort $(dir $(SRC_FILES)))
 
 $(OUTDIR)/%.o:%.cpp  $(Headers)
 	@printf "\r$(GREEN)Compiling $< ...$(NO_COLOR)$(EOL)"
-	@${CC} ${CFLAGS} $(INC)  -o $@ -c $< -D $(stat)
+	@${CC} ${CFLAGS} $(INC)  -o $@ -c $< -D $(stat) $(DIAGNOSING)
 
 
-
-all: CFLAGS += -DDIAGNOSING -DLOG_PATH=\"$(log_path)\" #TODO: diagno
 all: $(NAME)
-
-diagno: $(NAME)
 
 $(NAME): $(OBJ_FILES)
 	@mkdir -p ${log_path}
-	@$(CC) ${CFLAGS} $(INC) $(OBJ_FILES) -o build/${NAME}
+	@$(CC) ${CFLAGS} $(OBJ_FILES) -o build/${NAME}
 	@printf "\r$(GREEN)Compilation done$(NO_COLOR)$(EOL)\n"
 
 clean:
