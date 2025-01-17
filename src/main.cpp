@@ -12,7 +12,6 @@ int main(int argc, char **argv) {
     } catch (const std::system_error& e) {
         throwgh ("main") __ca_tch("system_error")
 
-        std::cerr << "Eroor: no exit command found!" << std::endl;
         return e.code().value();
     } catch (const std::exception &e) {
         throwgh ("main") __ca_tch("exception")

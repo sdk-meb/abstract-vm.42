@@ -12,10 +12,17 @@ absvm::absvm(const std::string &filename) {
     std::ifstream source;
 
     source.open(filename);
-    if (not source.is_open()) 
-        throw std::runtime_error("Error: Failed to open " + filename);
+    if (not source.is_open()) {
 
-    interpretsource(source);
+        std::cerr <<  "Error: Failed to open " << filename << std::endl;
+        std::__throw_system_error(errno);
+    }
+    try {
+        interpretsource(source);
+    } catch(const std::exception& e) {
+        source.close();
+        __throw_exception_again e;
+    }
     source.close();
 }
 
@@ -30,14 +37,9 @@ void absvm::processLines(std::istream& input) {
                 break;; // TODO: return if it's eq to exit
             if (not line.empty() and line[0] != ';')
                 interpret(line);
-        } catch (const InterpretationExept& Ie) {
-            throwgh ("absvm::processLines") __ca_tch("InterpretationExept")
-
-            Ie._tracing_what(clines);
         } catch (const std::exception& e) {
             throwgh ("absvm::processLines") __ca_tch("exception")
-
-            InterpretationExept(e.what())._tracing_what(clines);
+            InterpretationExept(e.what())._tracing_what(clines); //throw agin when msg not match InterpretationExept pattern
         }
     }
     std::__throw_system_error(42);
