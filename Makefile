@@ -1,10 +1,11 @@
 NAME = Abstractvm
 
 stat = Development
-
+log_path = Logs
 
 CC = c++ -std=c++23
-INC = -I$(shell pwd)/src/Includes
+CURRENTDIR=$(shell pwd)
+INC = -I$(CURRENTDIR)/src/Includes -I$(CURRENTDIR)/src/Dignoses/Includes
 
 RED = \033[0;31m
 R_3 = \033[0;34m
@@ -13,7 +14,6 @@ NO_COLOR = \033[0m
 EOL= \033[0K
 
 CFLAGS = -Wall -Wextra -Werror -Wno-error -fsanitize=address # TODO: no error just for diagnose files
-LEAKS = -D leaks=0
 
 Headers= $(shell find . -type f -name "*.hpp")
 SRC_FILES = $(shell find . -type f -name "*.cpp")
@@ -30,12 +30,13 @@ $(OUTDIR)/%.o:%.cpp  $(Headers)
 
 
 
+all: CFLAGS += -DDIAGNOSING -DLOG_PATH=\"$(log_path)\" #TODO: diagno
 all: $(NAME)
 
-diagno: CFLAGS += -D DIAGNOSING
 diagno: $(NAME)
 
 $(NAME): $(OBJ_FILES)
+	@mkdir -p ${log_path}
 	@$(CC) ${CFLAGS} $(INC) $(OBJ_FILES) -o build/${NAME}
 	@printf "\r$(GREEN)Compilation done$(NO_COLOR)$(EOL)\n"
 
@@ -44,6 +45,8 @@ clean:
 	@echo "$(RED)Object files removed$(NO_COLOR)$(EOL)"
 
 fclean: clean
+	@rm -rif $(log_path)
+	@echo "$(RED)Logs removed$(NO_COLOR)$(EOL)"
 	@rm -f $(NAME)
 	@echo "$(RED)Executable removed$(NO_COLOR)$(EOL)"
 
