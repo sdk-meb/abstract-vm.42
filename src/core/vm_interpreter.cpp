@@ -8,14 +8,13 @@ void absvm::interpret(const std::string &line) {
             if (val.empty())
                 throw InterpretationExept("Error: Push Value required -> VMinterpreter(interpret) ? empty val");
             const std::pair<eOperandType, std::string>& __pair =  this->interpretValueFormat(val);
-            auto tmp_opetrand =  Factory().createOperand(__pair.first, __pair.second);
+            auto operand =  Factory().createOperand(__pair.first, __pair.second);
             try {
-                Push(this->stack).execute(tmp_opetrand);
-                delete tmp_opetrand;
+                Push(this->stack).execute(operand);
             } catch (const std::exception &e) {
                 throwgh ("absvm::interpret(push)") __ca_tch("exception")
 
-                delete tmp_opetrand;
+                delete operand;
                 throw InterpretationExept(e.what());
             }
         }},
@@ -23,17 +22,15 @@ void absvm::interpret(const std::string &line) {
             if (val.empty())
                 throw InterpretationExept("Error: Assert Value required -> VMinterpreter(interpret) ? empty val");
             const std::pair<eOperandType, std::string>& __pair =  this->interpretValueFormat(val);
-            auto tmp_opetrand =  Factory().createOperand(__pair.first, __pair.second);
+            auto tmp_operand =  Factory().createOperand(__pair.first, __pair.second);
             try {
-                Assert(this->stack).execute(tmp_opetrand);
-                delete tmp_opetrand;
-                // TODO: tracing succesed
-            } catch (const std::logic_error &e) {
-                throwgh ("absvm::interpret(assert)") __ca_tch("logic_error")
+                Assert(this->stack).execute(tmp_operand);
+                delete tmp_operand;
+            } catch (const std::exception &e) {
+                throwgh ("absvm::interpret(assert)") __ca_tch("exception")
 
-                delete tmp_opetrand;
-                std::cerr << e.what() << std::endl;
-                // TODO: tracing || stop
+                delete tmp_operand;
+                throw InterpretationExept(e.what());
             }
         }},
         {"pop", [this](const std::string& unval) {

@@ -6,7 +6,12 @@ absvm::absvm() { this->shell(); }
 /** 
  * @note ... # TODO: std::stack<std::unique_ptr<IOperand>> stack; or std::shared_ptr
  */
-absvm::~absvm() {}
+absvm::~absvm() {
+    while (!stack.empty()) {
+        delete stack.top();
+        stack.pop();
+    }
+}
 
 absvm::absvm(const std::string &filename) {
     std::ifstream source;
@@ -28,7 +33,7 @@ absvm::absvm(const std::string &filename) {
 
 void absvm::processLines(std::istream& input) {
 
-    static int clines;
+    int clines = 1;
     Logger::__init_();
 
     for (std::string line; std::getline(input, line); ++clines) {
@@ -70,7 +75,7 @@ void absvm::interpretsource(const std::ifstream &source) {
  */
 std::pair<eOperandType, std::string> absvm::interpretValueFormat(const std::string& value_format) {
 
-    std::regex pattern(R"(^\s*(int8|int16|int32|float|double)\((.*)\)\s*$)");
+    std::regex pattern(R"(^\s*(int8|int16|int32|float|double)\((-?\d+(\.\d+)?(e[+-]?\d+)?)\)\s*$)");
     std::smatch matches;
 
     if (not std::regex_match(value_format, matches, pattern))

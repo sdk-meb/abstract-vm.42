@@ -18,18 +18,15 @@ Assert::Assert(std::stack<const IOperand *> &stack) : IInstruction(stack) {}
  *    in both type and value.
  * 
  */
-void Assert::execute(const IOperand *val) {
+void Assert::execute(const IOperand* val) {
 
     if (this->__stack.empty())
-        std::__throw_out_of_range("Assertion failed: stack is empty.");
+        InterpretationExept("Failed: stack is empty -> Instruction(Assert) ?" + val->toString());
 
-    const IOperand *top = this->__stack.top(); // TODO: smatch pattern of logger
-    if (top->toString() != val->toString() || top->getType() != val->getType())
-        std::__throw_logic_error(("Assertion failed: expected " +
-                                  std::to_string(static_cast<int>(val->getType())) +
-                                  "/bit with value " + val->toString() +
-                                  ", but got " +
-                                  std::to_string(static_cast<int>(top->getType())) +
-                                  "/bit with value " + top->toString())
-                                     .c_str());
+    const IOperand* top = this->__stack.top();
+    if (top->toString() not_eq val->toString())
+        InterpretationExept("Worning: incompatible values -> Instruction(Assert) ? " + val->toString() + " is not " + top->toString());
+    if (top->getType() not_eq val->getType())
+        InterpretationExept("Worning: incompatible types -> Instruction(Assert) ? " + eOperandstoString(val->getType()) + " is not " + eOperandstoString(top->getType()));
+
 }
