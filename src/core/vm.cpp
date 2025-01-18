@@ -1,5 +1,5 @@
 #include <vm.hpp>
-#include <regex>
+
 
 absvm::absvm() { this->shell(); }
 
@@ -71,10 +71,10 @@ void absvm::interpretsource(const std::ifstream &source) {
 std::pair<eOperandType, std::string> absvm::interpretValueFormat(const std::string& value_format) {
 
     std::regex pattern(R"(^\s*(int8|int16|int32|float|double)\((.*)\)\s*$)");
-    std::smatch matches; // TODO: l  
+    std::smatch matches;
 
-    if (!std::regex_match(value_format, matches, pattern))
-        throw InterpretationExept("Error: Invalid value format: " + value_format);
+    if (not std::regex_match(value_format, matches, pattern))
+        throw InterpretationExept("Error: Invalid value format -> VMinterpreter(interpretValueFormat) ? " + value_format);
 
     static const std::array<std::string, types_count> types = {"int8", "int16", "int32", "float", "double"};
 
@@ -82,7 +82,7 @@ std::pair<eOperandType, std::string> absvm::interpretValueFormat(const std::stri
         if (matches[1] == types[i])
             return {eOperandType( i), matches[2]};
 
-    throw std::runtime_error("Error: Unknown type in: " + value_format);
+    throw InterpretationExept("Error: Unknown type -> VMinterpreter(interpretValueFormat) ? " + matches[2].str());
 }
 
 

@@ -1,11 +1,12 @@
 #include <vm.hpp>
 
+
 void absvm::interpret(const std::string &line) {
 
     static const std::unordered_map<std::string, std::function<void(const std::string&)>> commands = { // TODO: l unordered_map function
         {"push", [this](const std::string& val) { // TODO: l [this] (...) {}
             if (val.empty())
-                throw std::runtime_error("Error: Value required for push");
+                throw InterpretationExept("Error: Push Value required -> VMinterpreter(interpret) ? empty val");
             const std::pair<eOperandType, std::string>& __pair =  this->interpretValueFormat(val);
             auto tmp_opetrand =  Factory().createOperand(__pair.first, __pair.second);
             try {
@@ -14,16 +15,13 @@ void absvm::interpret(const std::string &line) {
             } catch (const std::exception &e) {
                 throwgh ("absvm::interpret(push)") __ca_tch("exception")
 
-
                 delete tmp_opetrand;
                 throw InterpretationExept(e.what());
-                std::cerr << e.what() << "dddddddddddddddd"<< std::endl;
-                // TODO: tracing
             }
         }},
         {"assert", [this](const std::string& val) {
             if (val.empty())
-                throw std::runtime_error("Error: Value required for assert");
+                throw InterpretationExept("Error: Assert Value required -> VMinterpreter(interpret) ? empty val");
             const std::pair<eOperandType, std::string>& __pair =  this->interpretValueFormat(val);
             auto tmp_opetrand =  Factory().createOperand(__pair.first, __pair.second);
             try {

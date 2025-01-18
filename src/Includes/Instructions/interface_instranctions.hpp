@@ -13,7 +13,7 @@ class IInstruction {
         std::stack<const IOperand*> &__stack;
 
     public:
-        IInstruction(std::stack<const IOperand*> & _stack) : __stack(_stack) {}
+        IInstruction(std::stack<const IOperand*> & _stack) : __stack(_stack) {} // TODO: forbiden 
         // Canonical form
         IInstruction(void) = default;
         IInstruction(const IInstruction&) = default;

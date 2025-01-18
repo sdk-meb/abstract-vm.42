@@ -29,5 +29,9 @@ IOperand const * Factory::createOperand(eOperandType type, std::string const & v
         &Factory::createFloat,
         &Factory::createDouble
     };
-    return (this->*functions[static_cast<int>(type)])(value);
+    try {
+        return (this->*functions[static_cast<int>(type)])(value);
+    } catch (const std::exception& e) {
+        throw InterpretationExept("Error: " + static_cast<std::string>( e.what()) + " -> Operands(" + eOperandstoString(type) + ") ? " + value);
+    }
 }

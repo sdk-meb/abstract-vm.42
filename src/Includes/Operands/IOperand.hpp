@@ -2,6 +2,12 @@
 #define IOPERAND_HPP
 
 #include <string>
+#include <unordered_map>
+
+/**
+ *  @include diagnostics
+ */
+#include <diagnostics.hpp>
 
 enum class eOperandType {
 
@@ -11,6 +17,8 @@ enum class eOperandType {
     Float = 64,
     Double = 128 
 };
+const std::string& eOperandstoString(eOperandType type);
+
 
 #define types_count 5
 

@@ -47,13 +47,14 @@ void Logger::loghandler(const int& line_number, const std::smatch &smatch) {
 
     // # TODO: need json validation
     log_file << "{"
-           << "\"timestamp\": \"" << timestamp << "\", "
-           << "\"message\": \"" << smatch[2] << "\", "
-           << "\"log\": {"
-           << "\"level\": \"" << smatch[1] << "\", "
-           << "\"funtype\": \"" << smatch[3] <<"\", "
-           << "\"function\": \"" << smatch[4] <<"\", "
-           << "\"line\": " << line_number
+           << "\"Timestamp\": \"" << timestamp << "\", "
+           << "\"Message\": \"" << smatch[2] << "\", "
+           << "\"Log\": {"
+           << "\"Level\": \"" << smatch[1] << "\", "
+           << "\"Funtype\": \"" << smatch[3] <<"\", "
+           << "\"Function\": \"" << smatch[4] <<"\", "
+           << "\"Cause\": \"" << smatch[5] <<"\", "
+           << "\"Line\": " << line_number
            << "} "
            << "}" << std::endl;
 }

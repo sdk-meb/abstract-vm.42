@@ -23,7 +23,7 @@ void Assert::execute(const IOperand *val) {
     if (this->__stack.empty())
         std::__throw_out_of_range("Assertion failed: stack is empty.");
 
-    const IOperand *top = this->__stack.top();
+    const IOperand *top = this->__stack.top(); // TODO: smatch pattern of logger
     if (top->toString() != val->toString() || top->getType() != val->getType())
         std::__throw_logic_error(("Assertion failed: expected " +
                                   std::to_string(static_cast<int>(val->getType())) +

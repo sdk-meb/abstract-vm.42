@@ -7,18 +7,24 @@ InterpretationExept::InterpretationExept(const std::string &message)
 
     }
 
-
+/**
+ * @throw
+ *   - no DIAGNOSING define
+ * @throw
+ *   - unmatched pattern <loglevel>\: <msg> -> <funtype>(<funname>) ? <cause>
+ */
 const char* InterpretationExept::_tracing_what(const int& line_number) const {
 #ifndef DIAGNOSING
         std::__throw_logic_error(what());
 #endif
-        std::regex pattern(R"((\w+):\s*(.+)\s+(\w+)\s+(\w+))"); 
+        std::regex pattern(R"((\w+):\s+(.+?)\s+->\s+(\w+)\((\w+)\)\s*\?\s*(.+)?)");
         std::smatch matches;
 
         const std::string ex_what = this->what(); 
 
         if (not std::regex_match(ex_what , matches, pattern)) {
-                throwgh ("_tracing_what") __ca_tch("noexept: Invalid value format: " + ex_what)
+
+                throwgh ("_tracing_what") __ca_tch("regex_match: " + ex_what)
                 /**
                  * @attention make sure all abs-vm @exception match the pattern above 
                  */
