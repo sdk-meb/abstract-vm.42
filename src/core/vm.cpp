@@ -6,8 +6,11 @@ absvm::absvm() { this->shell(); }
 /** 
  * @note ... # TODO: std::stack<std::unique_ptr<IOperand>> stack; or std::shared_ptr
  */
-absvm::~absvm() {
-    while (!stack.empty()) {
+absvm::~absvm() { delete_stack(); }
+
+void absvm::delete_stack() {
+
+    while (not this->stack.empty()) {
         delete stack.top();
         stack.pop();
     }
@@ -51,11 +54,29 @@ void absvm::processLines(std::istream& input) {
 }
 
 void absvm::shell() {
-    processLines(std::cin);
+
+    try {
+        processLines(std::cin);
+    } catch(const std::system_error& se) {
+        delete_stack();
+        __throw_exception_again se;
+    } catch(const std::exception& e) {
+        delete_stack();
+        __throw_exception_again e;
+    }
 }
 
 void absvm::interpretsource(const std::ifstream &source) {
-    processLines(const_cast<std::ifstream&>(source));
+
+    try {
+        processLines(const_cast<std::ifstream&>(source));
+    } catch(const std::system_error& se) {
+        delete_stack();
+        __throw_exception_again se;
+    } catch(const std::exception& e) {
+        delete_stack();
+        __throw_exception_again e;
+    }
 }
 
 

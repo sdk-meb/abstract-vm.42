@@ -64,6 +64,7 @@ class absvm {
         void shell();
         void processLines(std::istream& );
         void interpretsource(const std::ifstream &);
+        void delete_stack();
 
     public:
         absvm();
