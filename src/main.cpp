@@ -9,15 +9,13 @@ int main(int argc, char **argv) {
         else
             argc == 1 ? absvm() : absvm(argv[1]);
         return 0;
-    }
-    catch (const std::system_error& e) {
+    } catch (const std::system_error& e) {
+        throwgh ("main") __ca_tch("system_error")
 
-        std::cerr << "Eroor: no exit command found!" << std::endl;
         return e.code().value();
-    }
-    catch (const std::exception &e) {
+    } catch (const std::exception &e) {
+        throwgh ("main") __ca_tch("exception")
 
-        std::cerr << e.what() << std::endl;
         return 1;
     }
 }

@@ -37,6 +37,17 @@
 
 
 /**
+ *  @include diagnostics
+ */
+#include <diagnostics.hpp>
+
+/**
+ * @include utils
+ */
+#include <Utils/mode.hpp>
+
+
+/**
  * @brief The main class for the abstract vm
  * 
  * @details
@@ -53,6 +64,7 @@ class absvm {
         void shell();
         void processLines(std::istream& );
         void interpretsource(const std::ifstream &);
+        void delete_stack();
 
     public:
         absvm();

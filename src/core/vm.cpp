@@ -1,14 +1,18 @@
 #include <vm.hpp>
-#include <regex>
+
 
 absvm::absvm() { this->shell(); }
 
 /** 
  * @note ... # TODO: std::stack<std::unique_ptr<IOperand>> stack; or std::shared_ptr
  */
-absvm::~absvm() {
-    for (; not this->stack.empty(); this->stack.pop()) {
-        delete this->stack.top();
+absvm::~absvm() { delete_stack(); }
+
+void absvm::delete_stack() {
+
+    while (not this->stack.empty()) {
+        delete stack.top();
+        stack.pop();
     }
 }
 
@@ -16,32 +20,63 @@ absvm::absvm(const std::string &filename) {
     std::ifstream source;
 
     source.open(filename);
-    if (not source.is_open()) 
-        throw std::runtime_error("Error: Failed to open " + filename);
+    if (not source.is_open()) {
 
-    interpretsource(source);
+        std::cerr <<  "Error: Failed to open " << filename << std::endl;
+        std::__throw_system_error(errno);
+    }
+    try {
+        interpretsource(source);
+    } catch(const std::exception& e) {
+        source.close();
+        __throw_exception_again e;
+    }
     source.close();
 }
 
 void absvm::processLines(std::istream& input) {
 
-    for (std::string line; std::getline(input, line);) {
+    int clines = 1;
+    Logger::__init_();
 
-        if (line == ";;")
-            break;; // TODO: return if it's eq to exit
-        if (not line.empty() and line[0] != ';')
-            interpret(line);
-        // TODO tarcking lines for debugging here
+    for (std::string line; std::getline(input, line); ++clines) {
+        try {
+            if (line == ";;")
+                break;; // TODO: return if it's eq to exit
+            if (not line.empty() and line[0] != ';')
+                interpret(line);
+        } catch (const std::exception& e) {
+            throwgh ("absvm::processLines") __ca_tch("exception")
+            InterpretationExept(e.what())._tracing_what(clines); //throw agin when msg not match InterpretationExept pattern
+        }
     }
     std::__throw_system_error(42);
 }
 
 void absvm::shell() {
-    processLines(std::cin);
+
+    try {
+        processLines(std::cin);
+    } catch(const std::system_error& se) {
+        delete_stack();
+        __throw_exception_again se;
+    } catch(const std::exception& e) {
+        delete_stack();
+        __throw_exception_again e;
+    }
 }
 
 void absvm::interpretsource(const std::ifstream &source) {
-    processLines(const_cast<std::ifstream&>(source));
+
+    try {
+        processLines(const_cast<std::ifstream&>(source));
+    } catch(const std::system_error& se) {
+        delete_stack();
+        __throw_exception_again se;
+    } catch(const std::exception& e) {
+        delete_stack();
+        __throw_exception_again e;
+    }
 }
 
 
@@ -60,11 +95,12 @@ void absvm::interpretsource(const std::ifstream &source) {
  *  ◦ double(z) : Creates a double with value z
  */
 std::pair<eOperandType, std::string> absvm::interpretValueFormat(const std::string& value_format) {
-    std::regex pattern(R"(^\s*(int8|int16|int32|float|double)\((.*)\)\s*$)");
-    std::smatch matches; // TODO: l  
 
-    if (!std::regex_match(value_format, matches, pattern))
-        throw std::runtime_error("Error: Invalid value format: " + value_format);
+    std::regex pattern(R"(^\s*(int8|int16|int32|float|double)\((-?\d+(\.\d+)?(e[+-]?\d+)?)\)\s*$)");
+    std::smatch matches;
+
+    if (not std::regex_match(value_format, matches, pattern))
+        throw InterpretationExept("Error: Invalid value format -> VMinterpreter(interpretValueFormat) ? " + value_format);
 
     static const std::array<std::string, types_count> types = {"int8", "int16", "int32", "float", "double"};
 
@@ -72,118 +108,7 @@ std::pair<eOperandType, std::string> absvm::interpretValueFormat(const std::stri
         if (matches[1] == types[i])
             return {eOperandType( i), matches[2]};
 
-    throw std::runtime_error("Error: Unknown type in: " + value_format);
+    throw InterpretationExept("Error: Unknown type -> VMinterpreter(interpretValueFormat) ? " + matches[2].str());
 }
 
 
-
-void absvm::interpret(const std::string &line) {
-
-    static const std::unordered_map<std::string, std::function<void(const std::string&)>> commands = { // TODO: l unordered_map function
-        {"push", [this](const std::string& val) { // TODO: l [this] (...) {}
-            if (val.empty())
-                throw std::runtime_error("Error: Value required for push");
-            const std::pair<eOperandType, std::string>& __pair =  this->interpretValueFormat(val);
-            auto tmp_opetrand =  Factory().createOperand(__pair.first, __pair.second);
-            try {
-                Push(this->stack).execute(tmp_opetrand);
-                delete tmp_opetrand;
-            }
-            catch (const std::logic_error &e) {
-                delete tmp_opetrand;
-                std::cerr << e.what() << std::endl;
-                // TODO: tracing
-            }
-        }},
-        {"assert", [this](const std::string& val) {
-            if (val.empty())
-                throw std::runtime_error("Error: Value required for assert");
-            const std::pair<eOperandType, std::string>& __pair =  this->interpretValueFormat(val);
-            auto tmp_opetrand =  Factory().createOperand(__pair.first, __pair.second);
-            try {
-                Assert(this->stack).execute(tmp_opetrand);
-                delete tmp_opetrand;
-                // TODO: tracing succesed
-            }
-            catch (const std::logic_error &e) {
-                delete tmp_opetrand;
-                std::cerr << e.what() << std::endl;
-                // TODO: tracing || stop
-            }
-        }},
-        {"pop", [this](const std::string& unval) {
-            if (not unval.empty())
-                throw std::runtime_error("Error: Pop command takes no value");
-            try {
-                Pop(this->stack).execute();
-            }
-            catch (const std::logic_error &e) {
-                std::cerr << e.what() << std::endl;
-                // TODO: tracing || stop
-            }
-        }},
-        {"dump", [this](const std::string& unval) {
-            if (not unval.empty())
-                throw std::runtime_error("Error: Dump command takes no value");
-            Dump(this->stack).execute();
-        }},
-        {"add", [this](const std::string& unval) {
-            if (not unval.empty())
-                throw std::runtime_error("Error: Add command takes no value");
-            Add(this->stack).execute(); //  TODO: implemetation
-        }},
-        {"sub", [this](const std::string& unval) {
-            if (not unval.empty())
-                throw std::runtime_error("Error: Sub command takes no value");
-            Sub(this->stack).execute();//  TODO: implemetation
-        }},
-        {"mul", [this](const std::string& unval) {
-            if (not unval.empty())
-                throw std::runtime_error("Error: Mul command takes no value");
-            Mul(this->stack).execute();//  TODO: implemetation
-        }},
-        {"div", [this](const std::string& unval) {
-            if (not unval.empty())
-                throw std::runtime_error("Error: Div command takes no value");
-            Div(this->stack).execute();//  TODO: implemetation
-        }},
-        {"mod", [this](const std::string& unval) {
-            if (not unval.empty())
-                throw std::runtime_error("Error: Mod command takes no value");
-            Mod(this->stack).execute();//  TODO: implemetation
-        }},
-        {"print", [this](const std::string& unval) {
-            if (not unval.empty())
-                throw std::runtime_error("Error: Print command takes no value");
-            Print(this->stack).execute();
-        }},
-        {"exit", [this](const std::string& unval) { 
-            if (not unval.empty())
-                throw std::runtime_error("Error: Exit command takes no value");
-            Exit(this->stack).execute();
-        }},
-    };
-
-    std::istringstream iss(line);
-    std::vector<std::string> tokens;
-    std::string token;
-    while (iss >> token)
-        tokens.push_back(token);
-
-    if (tokens.empty())
-        return; // empty line
-
-    if (tokens.size() > 2)
-        throw std::runtime_error("Error: Too many arguments");
-
-    std::string command = tokens[0];
-    std::string value = tokens.size() == 2 ? tokens[1] : "";
-
-    auto it = commands.find(command); // TODO: l auto
-    if (it == commands.end())
-        throw std::runtime_error("Error:" + command + " Unknown command");
-
-    it->second(value);
-}
-
-// absvm::~absvm() {}

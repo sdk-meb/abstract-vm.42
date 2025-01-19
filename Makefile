@@ -1,10 +1,12 @@
 NAME = Abstractvm
 
-stat = Development
-
+stat = Debuging # Product, Test, Debuging, Development
+log_path = Logs
+DIAGNOSING = -DDIAGNOSING -DLOG_PATH=\"$(log_path)\"
 
 CC = c++ -std=c++23
-INC = -I$(shell pwd)/src/Includes
+CURRENTDIR=$(shell pwd)
+INC = -I$(CURRENTDIR)/src/Includes -I$(CURRENTDIR)/src/Dignoses/Includes
 
 RED = \033[0;31m
 R_3 = \033[0;34m
@@ -12,8 +14,7 @@ GREEN = \033[0;32m
 NO_COLOR = \033[0m
 EOL= \033[0K
 
-CFLAGS = -Wall -Wextra -Werror  -fsanitize=address
-LEAKS = -D leaks=0
+CFLAGS = -Wall -Wextra -Werror -Wno-error -fsanitize=address # TODO: no error just for diagnose files
 
 Headers= $(shell find . -type f -name "*.hpp")
 SRC_FILES = $(shell find . -type f -name "*.cpp")
@@ -26,14 +27,14 @@ vpath %.cpp $(sort $(dir $(SRC_FILES)))
 
 $(OUTDIR)/%.o:%.cpp  $(Headers)
 	@printf "\r$(GREEN)Compiling $< ...$(NO_COLOR)$(EOL)"
-	@${CC} ${CFLAGS} $(INC)  -o $@ -c $< -D $(stat)
-
+	@${CC} ${CFLAGS} $(INC)  -o $@ -c $< -D $(stat) $(DIAGNOSING)
 
 
 all: $(NAME)
 
 $(NAME): $(OBJ_FILES)
-	@$(CC) ${CFLAGS} $(INC) $(OBJ_FILES) -o build/${NAME}
+	@mkdir -p ${log_path}
+	@$(CC) ${CFLAGS} $(OBJ_FILES) -o build/${NAME}
 	@printf "\r$(GREEN)Compilation done$(NO_COLOR)$(EOL)\n"
 
 clean:
@@ -41,6 +42,8 @@ clean:
 	@echo "$(RED)Object files removed$(NO_COLOR)$(EOL)"
 
 fclean: clean
+	@rm -rif $(log_path)
+	@echo "$(RED)Logs removed$(NO_COLOR)$(EOL)"
 	@rm -f $(NAME)
 	@echo "$(RED)Executable removed$(NO_COLOR)$(EOL)"
 
