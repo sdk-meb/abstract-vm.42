@@ -1,4 +1,4 @@
-#include "../../Includes/Operands/IOperand.hpp"
+#include <Operands/_IOperand.hpp>
 
 const std::string& eOperandstoString(eOperandType type) {
 

@@ -5,7 +5,6 @@
 #include <string>
 #include <fstream>
 #include <stack>
-
 #include <functional>
 #include <sstream>
 
@@ -25,14 +24,6 @@
 #include <Instructions/exit.hpp>
 
 
-/**
- * @include Operands
- */
-#include <Operands/Int8.hpp>
-#include <Operands/Int16.hpp>
-#include <Operands/Int32.hpp>
-#include <Operands/Float.hpp>
-#include <Operands/Double.hpp>
 #include <factory.hpp>
 
 
@@ -44,7 +35,6 @@
 /**
  * @include utils
  */
-#include <Utils/mode.hpp>
 
 
 /**

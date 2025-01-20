@@ -1,8 +1,12 @@
 #ifndef FACTORY_HPP
 #define FACTORY_HPP
 
-#include "Operands/IOperand.hpp"
-#include <vm.hpp>
+#include <Operands/_IOperand.hpp>
+#include <Operands/operands.hpp>
+
+/**
+ * @include Operands
+ */
 
 class Factory {
 
@@ -20,5 +24,7 @@ class Factory {
 
         IOperand const *createOperand(eOperandType type, std::string const &value) const;
 };
+
+#include <Operands/operand_impl.tpp>
 
 #endif // FACTORY_HPP
