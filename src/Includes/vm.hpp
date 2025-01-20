@@ -35,6 +35,7 @@
 /**
  * @include utils
  */
+#include <Utils/parsser.hpp>
 
 
 /**
@@ -48,7 +49,6 @@ class absvm {
     
         std::stack<const IOperand*> stack;
         void interpret(const std::string &);
-        std::pair<eOperandType, std::string> interpretValueFormat(const std::string& value_format); // Fix declaration
 
     protected:
         void shell();

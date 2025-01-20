@@ -20,11 +20,11 @@ Div::Div (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 void Div::execute() {
 
     if (this->__stack.size() < 2)
-        throw InterpretationExept("ERROR: Not enough elements on the stack -> Instruction(Div) ? " + this->__stack.size());
+        throw InterpretationExept("ERROR: Not enough elements on the stack -> Instruction(Div)");
 
 
     if (this->__stack.top()->toString() == "0") 
-        throw InterpretationExept("ERROR: Division by zero -> Instruction(Div) ? 0/x");
+        throw InterpretationExept("ERROR: Division by zero -> Instruction(Div)");
 
     const IOperand* operand1 = this->__stack.top();
     this->__stack.pop();

@@ -38,14 +38,17 @@ $(NAME): $(OBJ_FILES)
 	@printf "\r$(GREEN)Compilation done$(NO_COLOR)$(EOL)\n"
 
 clean:
+	@echo -n "\r$(R_3)Cleaning up object files -> $(NO_COLOR)"
+	@du -sh $(OUTDIR) 2>/dev/null || true
 	@rm -f $(OBJ_FILES)
-	@echo "$(RED)Object files removed$(NO_COLOR)$(EOL)"
 
 fclean: clean
-	@rm -rif $(log_path)
-	@echo "$(RED)Logs removed$(NO_COLOR)$(EOL)"
-	@rm -f $(NAME)
-	@echo "$(RED)Executable removed$(NO_COLOR)$(EOL)"
+	@echo -n "\r$(R_3)Cleaning up executable -> $(NO_COLOR)"
+	@du -sh $(log_path) 2>/dev/null || true
+	@rm -rf $(log_path)
+	@echo -n "\r$(R_3)Cleaning up logs -> $(NO_COLOR)"
+	@du -sh build/${NAME} 2>/dev/null || true
+	@rm -f build/${NAME}
 
 run: ${NAME}
 	@./build/${NAME}; \

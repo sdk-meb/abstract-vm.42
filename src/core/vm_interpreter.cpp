@@ -1,13 +1,11 @@
 #include <vm.hpp>
+#include <unordered_set>
 
 
 void absvm::interpret(const std::string &line) {
 
-    static const std::unordered_map<std::string, std::function<void(const std::string&)>> commands = { // TODO: l unordered_map function
-        {"push", [this](const std::string& val) { // TODO: l [this] (...) {}
-            if (val.empty())
-                throw InterpretationExept("Error: Push Value required -> VMinterpreter(interpret) ? empty val");
-            const std::pair<eOperandType, std::string>& __pair =  this->interpretValueFormat(val);
+    static const std::unordered_map<std::string, std::function<void(const std::pair<eOperandType, std::string>&)>> commands = { // TODO: l unordered_map function
+        {"push", [this](const std::pair<eOperandType, std::string>& __pair) {
             auto operand =  Factory().createOperand(__pair.first, __pair.second);
             try {
                 Push(this->stack).execute(operand);
@@ -18,10 +16,7 @@ void absvm::interpret(const std::string &line) {
                 throw InterpretationExept(e.what());
             }
         }},
-        {"assert", [this](const std::string& val) {
-            if (val.empty())
-                throw InterpretationExept("Error: Assert Value required -> VMinterpreter(interpret) ? empty val");
-            const std::pair<eOperandType, std::string>& __pair =  this->interpretValueFormat(val);
+        {"assert", [this](const std::pair<eOperandType, std::string>& __pair) {
             auto tmp_operand =  Factory().createOperand(__pair.first, __pair.second);
             try {
                 Assert(this->stack).execute(tmp_operand);
@@ -33,9 +28,7 @@ void absvm::interpret(const std::string &line) {
                 throw InterpretationExept(e.what());
             }
         }},
-        {"pop", [this](const std::string& unval) {
-            if (not unval.empty())
-                throw InterpretationExept("Error: pop Value unrequired -> VMinterpreter(interpret) ? " + unval);
+        {"pop", [this](const std::pair<eOperandType, std::string>&) {
             try {
                 if (not this->stack.empty())
                     delete this->stack.top();
@@ -46,66 +39,79 @@ void absvm::interpret(const std::string &line) {
                 throw InterpretationExept(e.what());
             }
         }},
-        {"dump", [this](const std::string& unval) {
-            if (not unval.empty())
-                throw InterpretationExept("WORNING: dump Value unrequired -> VMinterpreter(interpret) ? " + unval);
+        {"dump", [this](const std::pair<eOperandType, std::string>&) {
             Dump(this->stack).execute();
         }},
-        {"add", [this](const std::string& unval) {
-            if (not unval.empty())
-                throw InterpretationExept("WORNING: add Value unrequired -> VMinterpreter(interpret) ? " + unval);
+        {"add", [this](const std::pair<eOperandType, std::string>&) {
             Add(this->stack).execute();
         }},
-        {"sub", [this](const std::string& unval) {
-            if (not unval.empty())
-                throw InterpretationExept("WORNING: sub Value unrequired -> VMinterpreter(interpret) ? " + unval);
+        {"sub", [this](const std::pair<eOperandType, std::string>&) {
             Sub(this->stack).execute();
         }},
-        {"mul", [this](const std::string& unval) {
-            if (not unval.empty())
-                throw InterpretationExept("WORNING: mul Value unrequired -> VMinterpreter(interpret) ? " + unval);
+        {"mul", [this](const std::pair<eOperandType, std::string>&) {
             Mul(this->stack).execute();
         }},
-        {"div", [this](const std::string& unval) {
-            if (not unval.empty())
-                throw InterpretationExept("WORNING: div Value unrequired -> VMinterpreter(interpret) ? " + unval);
+        {"div", [this](const std::pair<eOperandType, std::string>&) {
             Div(this->stack).execute();
         }},
-        {"mod", [this](const std::string& unval) {
-            if (not unval.empty())
-                throw InterpretationExept("WORNING: mod Value unrequired -> VMinterpreter(interpret) ? " + unval);
+        {"mod", [this](const std::pair<eOperandType, std::string>&) {
             Mod(this->stack).execute();
         }},
-        {"print", [this](const std::string& unval) {
-            if (not unval.empty())
-                throw InterpretationExept("WORNING: print Value unrequired -> VMinterpreter(interpret) ? " + unval);
+        {"print", [this](const std::pair<eOperandType, std::string>&) {
             Print(this->stack).execute();
         }},
-        {"exit", [this](const std::string& unval) { 
-            if (not unval.empty())
-                throw InterpretationExept("WORNING: exit Value unrequired -> VMinterpreter(interpret) ? " + unval);
+        {"exit", [this](const std::pair<eOperandType, std::string>&) { 
             Exit(this->stack).execute();
         }},
     };
 
-    std::istringstream iss(line);
-    std::vector<std::string> tokens;
-    std::string token;
-    while (iss >> token)
-        tokens.push_back(token);
 
-    if (tokens.empty())
+
+
+    std::string trimmed = trim(line);
+    if (trimmed.empty())
         return; // empty line
 
-    if (tokens.size() > 2)
-        throw std::runtime_error("Error: Too many arguments");
+    //  INSTR ("pop|dump|push|assert|add|sub|mul|div|mod|print|exit");
+    //  TYPES ("int8|int16|int32|float|double");
+    const auto pattern = R"(^\s*(pop|dump|push|assert|add|sub|mul|div|mod|print|exit)\s+(int8|int16|int32|float|double)?\(\s*([-+]?\d*\.?\d+)\s*\)?\s*$)";
+    std::regex regex( pattern, std::regex::icase);
+    std::regex instrRegex(R"(^\s*(pop|dump|push|assert|add|sub|mul|div|mod|print|exit)\b)", std::regex::icase);
+    std::regex typeRegex(R"(\b(int8|int16|int32|float|double)\b)", std::regex::icase);
+    std::regex valueRegex(R"(\(\s*([-+]?\d*\.?\d+)\s*\))");
+    std::smatch match;
 
-    std::string command = tokens[0];
-    std::string value = tokens.size() == 2 ? tokens[1] : "";
+    std::smatch global_match;
 
-    auto it = commands.find(command); // TODO: l auto
+    if (not std::regex_search(trimmed, global_match, instrRegex))
+        throw InterpretationExept("Error: Unknown instruction -> VMinterpreter(interpret)");
+    std::string command = global_match[1];
+    bool need_value =  not not std::unordered_set<std::string>({"assert", "push"}).find(command)->size();
+
+    if (need_value and not std::regex_search(trimmed, global_match, typeRegex))
+        throw InterpretationExept("Error: Unknown value type -> VMinterpreter(interpret)");
+    std::string type = global_match[1];
+
+    if (need_value and std::regex_search(trimmed, global_match, valueRegex))
+        throw InterpretationExept("Error: Unknown value type -> VMinterpreter(interpret)");
+    std::string value = global_match[1].str();
+
+    if (not std::regex_match(trimmed, regex))
+        throw InterpretationExept("Error: Too many arguments or invalid format. -> VMinterpreter(interpret)");
+
+
+    auto it = commands.find(command);
     if (it == commands.end())
-        throw std::runtime_error("Error:" + command + " Unknown command");
+        throw std::runtime_error("Error: regex_match Unknown command"); // never
 
-    it->second(value);
+    static const std::array<std::string, types_count> types = {"int8", "int16", "int32", "float", "double"};
+
+    if (not need_value)
+        it->second({eOperandType(-1), ""});
+    else {
+        for (size_t i = 0; i < types.size(); ++i)
+            if (type == types[i])
+                it->second( {eOperandType( i), value});
+    }
+
 }

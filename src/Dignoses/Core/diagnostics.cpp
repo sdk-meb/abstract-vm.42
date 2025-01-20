@@ -17,7 +17,7 @@ const char* InterpretationExept::_tracing_what(const int& line_number) const {
 #ifndef DIAGNOSING
         std::__throw_logic_error(what());
 #endif
-        std::regex pattern(R"((\w+):\s+(.+?)\s+->\s+(\w+)\((\w+)\)\s*\?\s*(.+)?)");
+        std::regex pattern(R"((\w+):\s+(.+?)\s+->\s+(\w+)\((\w+)\))");
         std::smatch matches;
 
         const std::string ex_what = this->what(); 
