@@ -50,6 +50,9 @@ void absvm::processLines(std::istream& input) {
             InterpretationExept(e.what())._tracing_what(clines); //throw agin when msg not match InterpretationExept pattern
         }
     }
+
+    InterpretationExept("ERROR: erminate the execution of the current program appears exit instruction -> absvm(processLines) ? EOF")
+        ._tracing_what(clines); 
     std::__throw_system_error(42);
 }
 
