@@ -15,6 +15,7 @@ int main(int argc, char **argv) {
         return e.code().value();
     } catch (const std::exception &e) {
         throwgh ("main") __ca_tch("exception")
+        __throw_exception_again e;
 
         return 1;
     }

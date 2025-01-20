@@ -1,6 +1,6 @@
 NAME = Abstractvm
 
-stat = Debuging # Product, Test, Debuging, Development
+stat = Test # Product, Test, Debuging, Development
 log_path = Logs
 DIAGNOSING = -DDIAGNOSING -DLOG_PATH=\"$(log_path)\"
 
@@ -14,7 +14,7 @@ GREEN = \033[0;32m
 NO_COLOR = \033[0m
 EOL= \033[0K
 
-CFLAGS = -Wall -Wextra -Werror  -fsanitize=address # TODO: no error just for diagnose files
+CFLAGS = -Wall -Wextra -Werror  -fsanitize=address
 
 Headers = $(shell find . -type f -name "*.hpp" -o -name "*.tpp")
 SRC_FILES = $(shell find . -type f -name "*.cpp")

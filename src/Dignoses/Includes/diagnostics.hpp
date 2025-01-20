@@ -1,8 +1,3 @@
-#if not defined(DIAGNOSING) and not defined(__DIAGNO_) and 0
-    # define __DIAGNO_
-    #warning "if you want tracing compilition try to define DIAGNOSING"
-#endif
-
 #ifndef __DIAGNO_HPP
 # define __DIAGNO_HPP
 

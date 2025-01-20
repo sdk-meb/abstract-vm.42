@@ -51,7 +51,7 @@ void absvm::processLines(std::istream& input) {
         }
     }
 
-    InterpretationExept("ERROR: erminate the execution of the current program appears exit instruction -> absvm(processLines) ? EOF")
+    InterpretationExept("ERROR: Terminate the execution of the current program appears exit instruction -> absvm(processLines) ? EOF")
         ._tracing_what(clines); 
     std::__throw_system_error(42);
 }
