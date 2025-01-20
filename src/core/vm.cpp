@@ -48,7 +48,6 @@ void absvm::processLines(std::istream& input) {
             if (not line.empty() and line[0] != ';')
                 interpret(line);
         } catch (const std::exception& e) {
-            throwgh ("absvm::processLines") __ca_tch("exception")
             InterpretationExept(e.what())._tracing_what(clines); //throw agin when msg not match InterpretationExept pattern
         }
     }

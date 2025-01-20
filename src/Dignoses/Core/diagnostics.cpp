@@ -24,7 +24,6 @@ const char* InterpretationExept::_tracing_what(const int& line_number) const {
 
         if (not std::regex_match(ex_what , matches, pattern)) {
 
-                throwgh ("_tracing_what") __ca_tch("regex_match: " + ex_what)
                 /**
                  * @attention make sure all abs-vm @exception match the pattern above 
                  */

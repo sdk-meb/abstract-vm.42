@@ -10,8 +10,6 @@ void absvm::interpret(const std::string &line) {
             try {
                 Push(this->stack).execute(operand);
             } catch (const std::exception &e) {
-                throwgh ("absvm::interpret(push)") __ca_tch("exception")
-
                 delete operand;
                 throw InterpretationExept(e.what());
             }
@@ -22,8 +20,6 @@ void absvm::interpret(const std::string &line) {
                 Assert(this->stack).execute(tmp_operand);
                 delete tmp_operand;
             } catch (const std::exception &e) {
-                throwgh ("absvm::interpret(assert)") __ca_tch("exception")
-
                 delete tmp_operand;
                 throw InterpretationExept(e.what());
             }
@@ -34,8 +30,6 @@ void absvm::interpret(const std::string &line) {
                     delete this->stack.top();
                 Pop(this->stack).execute();
             } catch (const std::logic_error &e) {
-                throwgh ("absvm::interpret(pop)") __ca_tch("logic_error")
-
                 throw InterpretationExept(e.what());
             }
         }},
