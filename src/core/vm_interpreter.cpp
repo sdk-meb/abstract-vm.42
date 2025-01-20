@@ -35,54 +35,55 @@ void absvm::interpret(const std::string &line) {
         }},
         {"pop", [this](const std::string& unval) {
             if (not unval.empty())
-                throw std::runtime_error("Error: Pop command takes no value");
+                throw InterpretationExept("Error: pop Value unrequired -> VMinterpreter(interpret) ? " + unval);
             try {
+                if (not this->stack.empty())
+                    delete this->stack.top();
                 Pop(this->stack).execute();
             } catch (const std::logic_error &e) {
                 throwgh ("absvm::interpret(pop)") __ca_tch("logic_error")
 
-                std::cerr << e.what() << std::endl;
-                // TODO: tracing || stop
+                throw InterpretationExept(e.what());
             }
         }},
         {"dump", [this](const std::string& unval) {
             if (not unval.empty())
-                throw std::runtime_error("Error: Dump command takes no value");
-            Dump(this->stack).execute(); //  TODO: implemetation
+                throw InterpretationExept("WORNING: dump Value unrequired -> VMinterpreter(interpret) ? " + unval);
+            Dump(this->stack).execute();
         }},
         {"add", [this](const std::string& unval) {
             if (not unval.empty())
-                throw std::runtime_error("Error: Add command takes no value");
-            Add(this->stack).execute(); //  TODO: implemetation
+                throw InterpretationExept("WORNING: add Value unrequired -> VMinterpreter(interpret) ? " + unval);
+            Add(this->stack).execute();
         }},
         {"sub", [this](const std::string& unval) {
             if (not unval.empty())
-                throw std::runtime_error("Error: Sub command takes no value");
-            Sub(this->stack).execute();//  TODO: implemetation
+                throw InterpretationExept("WORNING: sub Value unrequired -> VMinterpreter(interpret) ? " + unval);
+            Sub(this->stack).execute();
         }},
         {"mul", [this](const std::string& unval) {
             if (not unval.empty())
-                throw std::runtime_error("Error: Mul command takes no value");
-            Mul(this->stack).execute();//  TODO: implemetation
+                throw InterpretationExept("WORNING: mul Value unrequired -> VMinterpreter(interpret) ? " + unval);
+            Mul(this->stack).execute();
         }},
         {"div", [this](const std::string& unval) {
             if (not unval.empty())
-                throw std::runtime_error("Error: Div command takes no value");
-            Div(this->stack).execute();//  TODO: implemetation
+                throw InterpretationExept("WORNING: div Value unrequired -> VMinterpreter(interpret) ? " + unval);
+            Div(this->stack).execute();
         }},
         {"mod", [this](const std::string& unval) {
             if (not unval.empty())
-                throw std::runtime_error("Error: Mod command takes no value");
-            Mod(this->stack).execute();//  TODO: implemetation
+                throw InterpretationExept("WORNING: mod Value unrequired -> VMinterpreter(interpret) ? " + unval);
+            Mod(this->stack).execute();
         }},
         {"print", [this](const std::string& unval) {
             if (not unval.empty())
-                throw std::runtime_error("Error: Print command takes no value");
+                throw InterpretationExept("WORNING: print Value unrequired -> VMinterpreter(interpret) ? " + unval);
             Print(this->stack).execute();
         }},
         {"exit", [this](const std::string& unval) { 
             if (not unval.empty())
-                throw std::runtime_error("Error: Exit command takes no value");
+                throw InterpretationExept("WORNING: exit Value unrequired -> VMinterpreter(interpret) ? " + unval);
             Exit(this->stack).execute();
         }},
     };

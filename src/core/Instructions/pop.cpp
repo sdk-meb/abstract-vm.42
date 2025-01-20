@@ -12,7 +12,7 @@ Pop::Pop (std::stack<const IOperand*>& stack): IInstruction(stack) {}
  */
 void Pop::execute () { 
 
-    // if (this->__stack.empty())
-    //     std::__throw_underflow_error("Pop failed: stack is empty.");
+    if (this->__stack.empty())
+        InterpretationExept("ERROR: stack is empty -> Instruction(Pop) ");
     this->__stack.pop();
 }

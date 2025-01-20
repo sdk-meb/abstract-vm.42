@@ -14,7 +14,7 @@ class Dump : public IInstruction {
         Dump& operator=(const Dump& other) = default;
         virtual ~Dump() = default;
 
-        virtual void execute(const IOperand*) {};
+        virtual void execute(const IOperand*) {}; // # TODO: forbiden
         void execute() override;
 };
 

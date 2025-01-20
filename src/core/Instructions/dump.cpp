@@ -17,7 +17,7 @@ void Dump::execute() {
 
     std::stack<const IOperand*> tempStack = this->__stack;
 
-    while (!tempStack.empty()) {
+    while (not tempStack.empty()) {
         const IOperand* topElement = tempStack.top();
         auto type = "Unknown";
         switch (topElement->getType()) {

@@ -3,20 +3,33 @@
 
 Print::Print (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 
-void Print::execute () {
+
+/**
+ * @brief Prints the character corresponding to the ASCII value at the top of the stack.
+ * 
+ * This method checks if the top value of the stack is an 8-bit integer. If the value 
+ * is valid, it interprets it as an ASCII value and prints the corresponding character 
+ * inside square brackets. If the character is non-printable, it adds the suffix "-Non-Printable".
+ * If the value is not an 8-bit integer, the program halts with an error.
+ * 
+ * @exception Throw if the value at the top of the stack is not 
+ *            an 8-bit integer.
+ */
+void Print::execute() {
 
     if (this->__stack.empty())
-        std::__throw_underflow_error("Print failed: stack is empty."); // TODO: not sure or just ignore command
+        throw InterpretationExept("ERROR: Stack is empty -> Instruction(Print)");
 
-    const IOperand* topElement = this->__stack.top();
-    if (topElement->getType() not_eq eOperandType::Int8)
-        std::__throw_invalid_argument("Print failed: top of stack is not an 8-bit integer.");
+    const IOperand* operand = this->__stack.top();
 
-    int asciiValue = std::stoi(topElement->toString()); // toascii
-    // if (asciiValue < 0 || asciiValue > 255)  // not # TODO : this error must be tracked in parssing trac
-        // throw std::out_of_range("Print failed: value out of range for an 8-bit integer."); 
+
+    if (operand->getType() not_eq eOperandType::Int8)
+        throw InterpretationExept("ERROR: The value at the top of the stack is not an 8-bit integer -> Instruction(Print) ? " + eOperandstoString(operand->getType()));
+
+    int asciiValue = std::stoi(operand->toString());
 
     std::cout << '[' + static_cast<char>(asciiValue) + ']';
     if (not std::isprint(asciiValue))
         std::cout << "-Non-Printable" << std::endl;
+
 }
