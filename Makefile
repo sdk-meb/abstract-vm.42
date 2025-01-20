@@ -6,7 +6,7 @@ DIAGNOSING = -DDIAGNOSING -DLOG_PATH=\"$(log_path)\"
 
 CC = c++ -std=c++23
 CURRENTDIR=$(shell pwd)
-INC = -I$(CURRENTDIR)/src/Includes -I$(CURRENTDIR)/src/Dignoses/Includes
+INC = $(shell find ${CURRENTDIR} -type d -name Includes -exec echo -I{} \;)
 
 RED = \033[0;31m
 R_3 = \033[0;34m
@@ -14,9 +14,9 @@ GREEN = \033[0;32m
 NO_COLOR = \033[0m
 EOL= \033[0K
 
-CFLAGS = -Wall -Wextra -Werror -Wno-error -fsanitize=address # TODO: no error just for diagnose files
+CFLAGS = -Wall -Wextra -Werror  -fsanitize=address # TODO: no error just for diagnose files
 
-Headers= $(shell find . -type f -name "*.hpp")
+Headers = $(shell find . -type f -name "*.hpp" -o -name "*.tpp")
 SRC_FILES = $(shell find . -type f -name "*.cpp")
 
 OUTDIR = build/outfiles

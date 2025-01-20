@@ -11,11 +11,11 @@
 
 enum class eOperandType {
 
-    Int8 = 8,
-    Int16 = 16,
-    Int32 = 32,
-    Float = 64,
-    Double = 128 
+    Int8,
+    Int16,
+    Int32,
+    Float,
+    Double 
 };
 const std::string& eOperandstoString(eOperandType type);
 
@@ -25,7 +25,7 @@ const std::string& eOperandstoString(eOperandType type);
 class IOperand {
 
     protected:
-        eOperandType type;
+        eOperandType _type;
         std::string _stringValue;
 
     public:
