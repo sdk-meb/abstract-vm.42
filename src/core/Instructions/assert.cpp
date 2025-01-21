@@ -21,12 +21,12 @@ Assert::Assert(std::stack<const IOperand *> &stack) : IInstruction(stack) {}
 void Assert::execute(const IOperand* val) {
 
     if (this->__stack.empty())
-        InterpretationExept("Failed: stack is empty -> Instruction(Assert)");
+        std::__throw_length_error ("Failed: stack is empty -> Instruction(Assert)");
 
     const IOperand* top = this->__stack.top();
     if (top->toString() not_eq val->toString())
-        InterpretationExept("Worning: incompatible values -> Instruction(Assert)");
+        std::__throw_domain_error ("Worning: incompatible values -> Instruction(Assert)");
     if (top->getType() not_eq val->getType())
-        InterpretationExept("Worning: incompatible types -> Instruction(Assert)");
+        std::__throw_domain_error ("Worning: incompatible types -> Instruction(Assert)");
 
 }
