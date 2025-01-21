@@ -51,7 +51,7 @@ class absvm {
     
         std::stack<const IOperand*> stack;
         void interpret(const std::string&);
-        auto commands();
+        auto commands(const std::string&);
 
     protected:
         void processLines(std::ifstream&);

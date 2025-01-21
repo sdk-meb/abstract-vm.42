@@ -1,9 +1,9 @@
 #include <vm.hpp>
 
-auto absvm::commands() {
+auto absvm::commands(const std::string& commnad) {
 
     static const std::unordered_map<std::string, std::function<void(const std::pair<eOperandType, std::string> &)>> s_commands = {
-        {"push", [this](const std::pair<eOperandType, std::string> &__pair) {
+        {"push", [this](auto __pair) {
 
             auto operand = Factory().createOperand(__pair.first, __pair.second);
             try {
@@ -13,7 +13,7 @@ auto absvm::commands() {
                 throw InterpretationExept(e.what());
             }
         }},
-        {"assert", [this](const std::pair<eOperandType, std::string> &__pair) {
+        {"assert", [this](auto __pair) {
 
             auto tmp_operand = Factory().createOperand(__pair.first, __pair.second);
             try {
@@ -24,7 +24,7 @@ auto absvm::commands() {
                 throw InterpretationExept(e.what());
             }
         }},
-        {"pop", [this](const std::pair<eOperandType, std::string> &) {
+        {"pop", [this](auto) {
             try {
                 if (not this->stack.empty())
                     delete this->stack.top();
@@ -33,35 +33,55 @@ auto absvm::commands() {
                 throw InterpretationExept(e.what());
             }
         }},
-        {"dump", [this](const std::pair<eOperandType, std::string> &) {
+        {"dump", [this](auto) {
             Dump(this->stack).execute();
         }},
-        {"add", [this](const std::pair<eOperandType, std::string> &) {
+        {"add", [this](auto) {
             Add(this->stack).execute();
         }},
-        {"sub", [this](const std::pair<eOperandType, std::string> &) {
+        {"sub", [this](auto) {
             Sub(this->stack).execute();
         }},
-        {"mul", [this](const std::pair<eOperandType, std::string> &) {
+        {"mul", [this](auto) {
             Mul(this->stack).execute();
         }},
-        {"div", [this](const std::pair<eOperandType, std::string> &) {
+        {"div", [this](auto) {
             Div(this->stack).execute();
         }},
-        {"mod", [this](const std::pair<eOperandType, std::string> &) {
+        {"mod", [this](auto) {
             Mod(this->stack).execute();
         }},
-        {"print", [this](const std::pair<eOperandType, std::string> &) {
+        {"print", [this](auto) {
             Print(this->stack).execute();
         }},
-        {"exit", [this](const std::pair<eOperandType, std::string> &) {
+        {"exit", [this](auto) {
             Exit(this->stack).execute();
         }},
     };
 
-    return s_commands;
+    return s_commands.find(commnad);
 }
 
+
+std::smatch extract_instr(const std::string &line) {
+    std::regex instrRegex(R"(^\s*(pop|dump|push|assert|add|sub|mul|div|mod|print|exit)\s*(\s.*)?$)");
+    std::smatch match;
+
+    if (not std::regex_match(line, match, instrRegex))
+        throw InterpretationExept("Error: Unknown instruction -> VMinterpreter(extract_instr)");
+    
+    return match;
+}
+
+std::smatch extract_valueforma(const std::string& reset_line) {
+    std::regex valueformatRegex(R"(^\s*(int8|int16|int32|float|double)\s*\(\s*([-+]?\d*\.?\d+)\s*\)\s*(\s.*)?$)");
+    std::smatch match;
+
+    if (not std::regex_match(reset_line, match, valueformatRegex))
+        throw InterpretationExept("Error: value format invalide -> VMinterpreter(extract_valueforma)");
+
+    return match;
+}
 
 void absvm::interpret(const std::string &line) {
 
@@ -69,45 +89,39 @@ void absvm::interpret(const std::string &line) {
     if (trimmed.empty())
         return; // empty line
 
-    //  INSTR ("pop|dump|push|assert|add|sub|mul|div|mod|print|exit");
-    //  TYPES ("int8|int16|int32|float|double");
-    const auto pattern = R"(^\s*(pop|dump|push|assert|add|sub|mul|div|mod|print|exit)\s+(int8|int16|int32|float|double)?\(\s*([-+]?\d*\.?\d+)\s*\)?\s*$)";
-    std::regex regex(pattern, std::regex::icase);
-    std::regex instrRegex(R"(^\s*(pop|dump|push|assert|add|sub|mul|div|mod|print|exit)\b)", std::regex::icase);
-    std::regex typeRegex(R"(\b(int8|int16|int32|float|double)\b)", std::regex::icase);
-    std::regex valueRegex(R"(\(\s*([-+]?\d*\.?\d+)\s*\))");
-    std::smatch match;
+    std::string command;
+    std::string reset;
+    std::string type;
+    std::string value;
+    bool need_value;
+    {
+        std::smatch match;
+        match = extract_instr(line);
+        command = match[1];
+        reset = match[2].str();
+        static std::unordered_set<std::string> commands_need_value = {"assert", "push"};
+        need_value = commands_need_value.find(command) not_eq commands_need_value.end();
+    }
+    if (need_value) {
+        std::smatch match;
 
-    std::smatch global_match;
+        match = extract_valueforma(reset);
+        type = match[1];
+        value = match[2];
+        reset = match[3];
+    } 
+    if (reset.size())
+        throw InterpretationExept("Error: Too many arguments. -> VMinterpreter(interpret)");
 
-    if (not std::regex_search(trimmed, global_match, instrRegex))
-        throw InterpretationExept("Error: Unknown instruction -> VMinterpreter(interpret)");
-    std::string command = global_match[1];
-    bool need_value = not not std::unordered_set<std::string>({"assert", "push"}).find(command)->size();
-
-    if (need_value and not std::regex_search(trimmed, global_match, typeRegex))
-        throw InterpretationExept("Error: Unknown value type -> VMinterpreter(interpret)");
-    std::string type = global_match[1];
-
-    if (need_value and std::regex_search(trimmed, global_match, valueRegex))
-        throw InterpretationExept("Error: Unknown value type -> VMinterpreter(interpret)");
-    std::string value = global_match[1].str();
-
-    if (not std::regex_match(trimmed, regex))
-        throw InterpretationExept("Error: Too many arguments or invalid format. -> VMinterpreter(interpret)");
-
-    auto it = commands().find(command);
-    if (it == commands().end())
-        throw std::runtime_error("Error: regex_match Unknown command"); // never
+    auto exce_command = commands(command);
 
     static const std::array<std::string, types_count> types = {"int8", "int16", "int32", "float", "double"};
 
     if (not need_value)
-        it->second({eOperandType(-1), ""});
-    else
-    {
+        exce_command->second({eOperandType::Double, ""});
+    else {
         for (size_t i = 0; i < types.size(); ++i)
             if (type == types[i])
-                it->second({eOperandType(i), value});
+                exce_command->second({eOperandType(i), value});
     }
 }
