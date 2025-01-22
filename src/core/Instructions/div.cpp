@@ -2,6 +2,7 @@
 
 Div::Div (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 
+void Div::execute(const IOperand*) {}
 /**
  * @brief Executes the division operation on the top two values of the stack.
  * 

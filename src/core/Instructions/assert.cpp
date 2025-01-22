@@ -2,6 +2,7 @@
 
 Assert::Assert(std::stack<const IOperand *> &stack) : IInstruction(stack) {}
 
+void Assert::execute() {}
 /**
  * @brief Asserts that the value at the top of the stack is equal to the one passed 
  * as a parameter to this instruction. If the assertion fails, the program execution 

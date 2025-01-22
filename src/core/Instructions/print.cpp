@@ -3,7 +3,7 @@
 
 Print::Print (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 
-
+void Print::execute(const IOperand*)  { }
 /**
  * @brief Prints the character corresponding to the ASCII value at the top of the stack.
  * 

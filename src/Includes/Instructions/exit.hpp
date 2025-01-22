@@ -13,7 +13,7 @@ class Exit : public IInstruction {
 
         ~Exit() override;
 
-        virtual void execute(const IOperand*) {};
+        virtual void execute(const IOperand*);
         void execute() override;
 };
 

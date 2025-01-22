@@ -2,6 +2,7 @@
 
 Pop::Pop (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 
+void Pop::execute(const IOperand*)  { }
 /**
  * @attention
  * Calling pop without deleting the top element can cause a memory leak.

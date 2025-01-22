@@ -15,7 +15,7 @@ class Pop : public IInstruction {
         Pop& operator=(const Pop& other) = default;
         virtual ~Pop() = default;
 
-        virtual void execute(const IOperand*) {};
+        virtual void execute(const IOperand*);
         void execute() override;
 };
 

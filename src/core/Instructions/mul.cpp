@@ -3,8 +3,7 @@
 
 Mul::Mul (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 
-void Mul::execute(const IOperand*) {};
-
+void Mul::execute(const IOperand*) { }
 /**
  * @brief Executes the multiplication operation on the top two values of the stack.
  * 

@@ -2,6 +2,7 @@
 
 Dump::Dump (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 
+void Dump::execute(const IOperand*) {}
 /**
  * @brief Dumps the contents of the stack from the most recent to the oldest.
  *        It prints each element's type and value, without modifying the stack.

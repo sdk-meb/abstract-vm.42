@@ -14,7 +14,7 @@ class Assert : public IInstruction {
         virtual ~Assert() = default;
 
         void execute(const IOperand*) override;
-        void execute() {};
+        void execute();
 };
 
 #endif // ASSERT_HPP

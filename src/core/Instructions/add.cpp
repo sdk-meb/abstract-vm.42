@@ -3,6 +3,7 @@
 
 Add::Add (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 
+void Add::execute(const IOperand*) {}
 /**
  * @brief Executes the addition operation on the top two values of the stack.
  * 

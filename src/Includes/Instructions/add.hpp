@@ -15,7 +15,7 @@ class Add : public IInstruction {
         Add& operator=(const Add& other) = default;
         virtual ~Add() = default;
 
-        virtual void execute(const IOperand*) {};
+        virtual void execute(const IOperand*);
         void execute() override;
 };
 

@@ -4,6 +4,7 @@
 
 Mod::Mod (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 
+void Mod::execute(const IOperand*)  { }
 /**
  * @brief Executes the modulus operation on the top two values of the stack.
  * 
