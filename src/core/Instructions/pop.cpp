@@ -14,6 +14,7 @@ void Pop::execute(const IOperand*)  { }
 void Pop::execute () { 
 
     if (this->__stack.empty())
-        throw InterpretationExept("ERROR: stack is empty -> Instruction(Pop)");
+        __throw_traced std::length_error("ERROR: Stack is empty > Instruction(Pop) ? msg");
+
     this->__stack.pop();
 }

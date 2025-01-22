@@ -10,7 +10,7 @@ auto absvm::commands(const std::string& commnad) {
                 Push(this->stack).execute(operand);
             } catch (const std::exception &e) {
                 delete operand;
-                throw InterpretationExept(e.what());
+                __throw_exception_again e;
             }
         }},
         {"assert", [this](auto __pair) {
@@ -21,7 +21,7 @@ auto absvm::commands(const std::string& commnad) {
                 delete tmp_operand;
             } catch (const std::exception &e) {
                 delete tmp_operand;
-                throw InterpretationExept(e.what());
+                __throw_exception_again e;
             }
         }},
         {"pop", [this](auto) {
@@ -30,7 +30,7 @@ auto absvm::commands(const std::string& commnad) {
                     delete this->stack.top();
                 Pop(this->stack).execute();
             } catch (const std::logic_error &e) {
-                throw InterpretationExept(e.what());
+                __throw_exception_again e;
             }
         }},
         {"dump", [this](auto) {
@@ -68,17 +68,17 @@ std::smatch extract_instr(const std::string &line) {
     std::smatch match;
 
     if (not std::regex_match(line, match, instrRegex))
-        throw InterpretationExept("Error: Unknown instruction -> VMinterpreter(extract_instr)");
+        __throw_traced std::invalid_argument("ERROR: Unknown instruction > parser(extract_instr) ? unmatched line");
     
     return match;
 }
 
-std::smatch extract_valueforma(const std::string& reset_line) {
+std::smatch extract_value_format(const std::string& reset_line) {
     std::regex valueformatRegex(R"(^\s*(int8|int16|int32|float|double)\s*\(\s*([-+]?\d*\.?\d+)\s*\)\s*(\s.*)?$)");
     std::smatch match;
 
     if (not std::regex_match(reset_line, match, valueformatRegex))
-        throw InterpretationExept("Error: value format invalide -> VMinterpreter(extract_valueforma)");
+        __throw_traced std::invalid_argument("ERROR: Invalid value format > parser(extract_value_format) ? not compatible with type(value)");
 
     return match;
 }
@@ -105,13 +105,13 @@ void absvm::interpret(const std::string &line) {
     if (need_value) {
         std::smatch match;
 
-        match = extract_valueforma(reset);
+        match = extract_value_format(reset);
         type = match[1];
         value = match[2];
         reset = match[3];
     } 
     if (reset.size())
-        throw InterpretationExept("Error: Too many arguments. -> VMinterpreter(interpret)");
+        __throw_traced std::invalid_argument("Error: Too many arguments > lexer(interpret) ? " + std::string(need_value ? "need one value" : "no value needent"));
 
     auto exce_command = commands(command);
 

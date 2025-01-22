@@ -63,7 +63,7 @@ template <typename _OP>
 template <typename _OP>
     IOperand const* Operand<_OP>::operator/(IOperand const& rhs) const {
         if (std::stod(rhs.toString()) == 0)
-            throw std::runtime_error("Division by zero");
+            __throw_traced std::domain_error("WARNING: Division by zero > O_operator(/) ? Undefined Behavior");
 
         eOperandType resultType = static_cast<eOperandType>(
             std::max(this->getPrecision(), rhs.getPrecision()));
@@ -75,7 +75,7 @@ template <typename _OP>
 template <typename _OP>
     IOperand const* Operand<_OP>::operator%(IOperand const& rhs) const {
         if (std::stod(rhs.toString()) == 0)
-            throw std::runtime_error("Modulo by zero");
+            __throw_traced std::domain_error("WARNING: Modulo by zero > O_operator(%) ? Undefined Behavior");
 
         __int32_t result = static_cast<__int32_t> (this->_value) % std::stoi(rhs.toString());
         return new Operand(result, eOperandType::Int32);

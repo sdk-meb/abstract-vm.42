@@ -18,13 +18,13 @@ void Print::execute(const IOperand*)  { }
 void Print::execute() {
 
     if (this->__stack.empty())
-        throw InterpretationExept("ERROR: Stack is empty -> Instruction(Print)");
+        __throw_traced std::length_error("ERROR: Stack is empty > Instruction(Print) ? no element to print");
 
     const IOperand* operand = this->__stack.top();
 
 
     if (operand->getType() not_eq eOperandType::Int8)
-        throw InterpretationExept("ERROR: The value at the top of the stack is not an 8-bit integer -> Instruction(Print)");
+        __throw_traced std::logic_error("ERROR: Cannot print value > Instruction(Print) ? not an 8-bit integer");
 
 
     char asciiValue = std::stoi(operand->toString());

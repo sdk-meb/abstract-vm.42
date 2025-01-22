@@ -23,11 +23,10 @@ void Mod::execute(const IOperand*)  { }
 void Mod::execute() {
 
     if (this->__stack.size() < 2)
-        throw InterpretationExept("ERROR: Not enough elements on the stack -> Instruction(Mod)");
-
+        __throw_traced std::length_error("ERROR: Not enough elements > Instruction(Mod) ? stack length");
 
     if (this->__stack.top()->toString() == "0")
-        throw InterpretationExept("ERROR: Modulus by zero -> Instruction(Mod)");
+        __throw_traced std::domain_error("ERROR: Modulus by zero > Instruction(Mod) ? Undefined Behavior");
 
     const IOperand* operand1 = this->__stack.top();
     this->__stack.pop();

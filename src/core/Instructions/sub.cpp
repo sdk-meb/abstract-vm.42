@@ -21,7 +21,7 @@ void Sub::execute(const IOperand*) { }
 void Sub::execute() {
 
     if (this->__stack.size() < 2)
-        throw InterpretationExept("ERROR: Not enough elements on the stack -> Instruction(Sub)");
+        __throw_traced std::length_error("ERROR: Not enough elements > Instruction(Sub) ? stack length");
 
     const IOperand* operand1 = this->__stack.top();
     this->__stack.pop();
