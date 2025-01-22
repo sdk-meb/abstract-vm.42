@@ -22,12 +22,13 @@ void Assert::execute() {}
 void Assert::execute(const IOperand* val) {
 
     if (this->__stack.empty())
-        std::__throw_length_error ("Failed: stack is empty -> Instruction(Assert)");
+        __throw_traced std::length_error("ERROR: Stack length > Instruction(Assert) ? stack empty");
 
     const IOperand* top = this->__stack.top();
     if (top->toString() not_eq val->toString())
-        std::__throw_domain_error ("Worning: incompatible values -> Instruction(Assert)");
+        __throw_traced std::domain_error("WARNING: Incompatible values > Instruction(Assert) ? msg");
+
     if (top->getType() not_eq val->getType())
-        std::__throw_domain_error ("Worning: incompatible types -> Instruction(Assert)");
+        __throw_traced std::domain_error("WARNING: Incompatible types > Instruction(Assert) ? msg");
 
 }

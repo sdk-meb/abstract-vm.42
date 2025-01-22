@@ -4,7 +4,7 @@ int main(int argc, char **argv) {
 
     try {
         if  (argc > 2)
-            throw std::invalid_argument("Error: too many arguments");
+            std::__throw_invalid_argument("Error: too many arguments");
         else
             argc == 1 ? absvm() : absvm(argv[1]);
         return 0;
@@ -12,7 +12,8 @@ int main(int argc, char **argv) {
 
         return e.code().value();
     } catch (const std::exception& e) {
-        __throw_exception_again e;
+        std::cerr << e.what() << std::endl;
+        // __throw_exception_again e;
 
         return 1;
     }

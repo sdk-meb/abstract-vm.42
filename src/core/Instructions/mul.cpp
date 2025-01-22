@@ -20,7 +20,7 @@ void Mul::execute(const IOperand*) { }
 void Mul::execute() {
 
     if (this->__stack.size() < 2)
-        throw InterpretationExept("ERROR: Not enough elements on the stack -> Instruction(Mul)");
+        __throw_traced std::length_error("ERROR: Not enough elements > Instruction(Mul) ? stack length");
 
     const IOperand* operand1 = this->__stack.top();
     this->__stack.pop();

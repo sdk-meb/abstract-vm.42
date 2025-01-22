@@ -54,7 +54,8 @@ void absvm::processLines(std::istream& input) {
             if (not line.empty() and line[0] not_eq ';')
                 interpret(line);
         } catch (const std::exception& e) {
-            InterpretationExept(e.what())._tracing_what(clines); //throw agin when msg not match InterpretationExept pattern
+
+            __throw_interpreter(e.what(), clines);  //throw agin when msg not match InterpretationExept pattern
         }
     }
 }
@@ -71,12 +72,12 @@ void absvm::processLines(std::ifstream& input) {
             if (not line.empty() and line[0] not_eq ';')
                 interpret(line);
         } catch (const std::exception& e) {
-            InterpretationExept(e.what())._tracing_what(clines); //throw agin when msg not match InterpretationExept pattern
+
+            __throw_interpreter(e.what(), clines); //throw agin when msg not match InterpretationExept pattern
         }
     }
 
-    InterpretationExept("ERROR: Terminate the execution of the current program appears exit instruction -> absvm(processLines)")
-        ._tracing_what(clines); 
+    __throw_interpreter("ERROR: Terminate the execution of the current program appears exit instruction -> absvm(processLines)", clines);
     std::__throw_system_error(42);
 }
 

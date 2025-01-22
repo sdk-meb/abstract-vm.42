@@ -20,7 +20,7 @@ void Add::execute(const IOperand*) {}
 void Add::execute() {
 
     if (this->__stack.size() < 2)
-        throw InterpretationExept("ERROR: Not enough elements on the stack -> Instruction(Add)");
+        __throw_traced std::length_error("ERROR: Not enough elements > Instruction(Add) ? stack size");
 
     const IOperand* operand1 = this->__stack.top();
     this->__stack.pop();

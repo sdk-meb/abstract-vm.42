@@ -21,11 +21,11 @@ void Div::execute(const IOperand*) {}
 void Div::execute() {
 
     if (this->__stack.size() < 2)
-        throw InterpretationExept("ERROR: Not enough elements on the stack -> Instruction(Div)");
+        __throw_traced std::length_error("ERROR: Not enough elements > Instruction(Div) ? stack size");
 
 
     if (this->__stack.top()->toString() == "0") 
-        throw InterpretationExept("ERROR: Division by zero -> Instruction(Div)");
+        __throw_traced std::invalid_argument("ERROR: Division by zero > Instruction(Div) ? Undefined Behavior");
 
     const IOperand* operand1 = this->__stack.top();
     this->__stack.pop();
