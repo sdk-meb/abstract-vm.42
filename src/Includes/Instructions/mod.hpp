@@ -13,7 +13,7 @@ class Mod : public IInstruction {
         Mod& operator=(const Mod& other) = default;
         virtual ~Mod() = default;
 
-        virtual void execute(const IOperand*) {};
+        virtual void execute(const IOperand*);
         void execute() override;
 };
 

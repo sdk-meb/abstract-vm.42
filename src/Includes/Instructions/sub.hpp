@@ -13,7 +13,7 @@ class Sub : public IInstruction {
         Sub& operator=(const Sub& other) = default;
         virtual ~Sub() = default;
 
-        virtual void execute(const IOperand*) {};
+        virtual void execute(const IOperand*);
         void execute() override;
 };
 

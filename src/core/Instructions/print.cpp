@@ -3,7 +3,7 @@
 
 Print::Print (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 
-
+void Print::execute(const IOperand*)  { }
 /**
  * @brief Prints the character corresponding to the ASCII value at the top of the stack.
  * 
@@ -24,12 +24,13 @@ void Print::execute() {
 
 
     if (operand->getType() not_eq eOperandType::Int8)
-        throw InterpretationExept("ERROR: The value at the top of the stack is not an 8-bit integer -> Instruction(Print) ? " + eOperandstoString(operand->getType()));
+        throw InterpretationExept("ERROR: The value at the top of the stack is not an 8-bit integer -> Instruction(Print)");
 
-    int asciiValue = std::stoi(operand->toString());
 
-    std::cout << '[' + static_cast<char>(asciiValue) + ']';
+    char asciiValue = std::stoi(operand->toString());
+
+    std::cout << '[' << (asciiValue) << ']';
     if (not std::isprint(asciiValue))
-        std::cout << "-Non-Printable" << std::endl;
-
+        std::cout << "-Non-Printable";
+    std::cout << std::endl;
 }

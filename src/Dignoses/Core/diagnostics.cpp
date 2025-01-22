@@ -17,14 +17,13 @@ const char* InterpretationExept::_tracing_what(const int& line_number) const {
 #ifndef DIAGNOSING
         std::__throw_logic_error(what());
 #endif
-        std::regex pattern(R"((\w+):\s+(.+?)\s+->\s+(\w+)\((\w+)\)\s*\?\s*(.+)?)");
+        std::regex pattern(R"((\w+):\s+(.+?)\s+->\s+(\w+)\((\w+)\))");
         std::smatch matches;
 
         const std::string ex_what = this->what(); 
 
         if (not std::regex_match(ex_what , matches, pattern)) {
 
-                throwgh ("_tracing_what") __ca_tch("regex_match: " + ex_what)
                 /**
                  * @attention make sure all abs-vm @exception match the pattern above 
                  */

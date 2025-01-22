@@ -1,6 +1,6 @@
 NAME = Abstractvm
 
-stat = Debuging # Product, Test, Debuging, Development
+stat = Test # Product, Test, Debuging, Development
 log_path = Logs
 DIAGNOSING = -DDIAGNOSING -DLOG_PATH=\"$(log_path)\"
 
@@ -14,7 +14,7 @@ GREEN = \033[0;32m
 NO_COLOR = \033[0m
 EOL= \033[0K
 
-CFLAGS = -Wall -Wextra -Werror  -fsanitize=address # TODO: no error just for diagnose files
+CFLAGS = -Wall -Wextra -Werror  -fsanitize=address
 
 Headers = $(shell find . -type f -name "*.hpp" -o -name "*.tpp")
 SRC_FILES = $(shell find . -type f -name "*.cpp")
@@ -38,14 +38,17 @@ $(NAME): $(OBJ_FILES)
 	@printf "\r$(GREEN)Compilation done$(NO_COLOR)$(EOL)\n"
 
 clean:
+	@echo -n "\r$(R_3)Cleaning up object files -> $(NO_COLOR)"
+	@du -sh $(OUTDIR) 2>/dev/null || true
 	@rm -f $(OBJ_FILES)
-	@echo "$(RED)Object files removed$(NO_COLOR)$(EOL)"
 
 fclean: clean
-	@rm -rif $(log_path)
-	@echo "$(RED)Logs removed$(NO_COLOR)$(EOL)"
-	@rm -f $(NAME)
-	@echo "$(RED)Executable removed$(NO_COLOR)$(EOL)"
+	@echo -n "\r$(R_3)Cleaning up executable -> $(NO_COLOR)"
+	@du -sh $(log_path) 2>/dev/null || true
+	@rm -rf $(log_path)
+	@echo -n "\r$(R_3)Cleaning up logs -> $(NO_COLOR)"
+	@du -sh build/${NAME} 2>/dev/null || true
+	@rm -f build/${NAME}
 
 run: ${NAME}
 	@./build/${NAME}; \

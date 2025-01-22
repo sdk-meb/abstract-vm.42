@@ -4,6 +4,7 @@
 
 Mod::Mod (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 
+void Mod::execute(const IOperand*)  { }
 /**
  * @brief Executes the modulus operation on the top two values of the stack.
  * 
@@ -22,7 +23,7 @@ Mod::Mod (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 void Mod::execute() {
 
     if (this->__stack.size() < 2)
-        throw InterpretationExept("ERROR: Not enough elements on the stack -> Instruction(Mod) ? " + this->__stack.size());
+        throw InterpretationExept("ERROR: Not enough elements on the stack -> Instruction(Mod)");
 
 
     if (this->__stack.top()->toString() == "0")

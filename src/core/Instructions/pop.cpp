@@ -2,6 +2,7 @@
 
 Pop::Pop (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 
+void Pop::execute(const IOperand*)  { }
 /**
  * @attention
  * Calling pop without deleting the top element can cause a memory leak.
@@ -13,6 +14,6 @@ Pop::Pop (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 void Pop::execute () { 
 
     if (this->__stack.empty())
-        InterpretationExept("ERROR: stack is empty -> Instruction(Pop) ");
+        throw InterpretationExept("ERROR: stack is empty -> Instruction(Pop)");
     this->__stack.pop();
 }

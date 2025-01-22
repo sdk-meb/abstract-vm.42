@@ -3,8 +3,7 @@
 
 Mul::Mul (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 
-void Mul::execute(const IOperand*) {};
-
+void Mul::execute(const IOperand*) { }
 /**
  * @brief Executes the multiplication operation on the top two values of the stack.
  * 
@@ -21,7 +20,7 @@ void Mul::execute(const IOperand*) {};
 void Mul::execute() {
 
     if (this->__stack.size() < 2)
-        throw InterpretationExept("ERROR: Not enough elements on the stack -> Instruction(Mul) ? " + this->__stack.size());
+        throw InterpretationExept("ERROR: Not enough elements on the stack -> Instruction(Mul)");
 
     const IOperand* operand1 = this->__stack.top();
     this->__stack.pop();

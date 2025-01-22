@@ -7,6 +7,8 @@
 #include <stack>
 #include <functional>
 #include <sstream>
+#include <unordered_set>
+
 
 /**
  * @include Instructions
@@ -35,6 +37,7 @@
 /**
  * @include utils
  */
+#include <Utils/parsser.hpp>
 
 
 /**
@@ -47,13 +50,12 @@
 class absvm {
     
         std::stack<const IOperand*> stack;
-        void interpret(const std::string &);
-        std::pair<eOperandType, std::string> interpretValueFormat(const std::string& value_format); // Fix declaration
+        void interpret(const std::string&);
+        auto commands(const std::string&);
 
     protected:
-        void shell();
-        void processLines(std::istream& );
-        void interpretsource(const std::ifstream &);
+        void processLines(std::ifstream&);
+        void processLines(std::istream&);
         void delete_stack();
 
     public:

@@ -14,7 +14,7 @@ class Print : public IInstruction {
         virtual ~Print() = default;
 
 
-        virtual void execute(const IOperand*) {};
+        virtual void execute(const IOperand*);
         void execute() override;
 };
 

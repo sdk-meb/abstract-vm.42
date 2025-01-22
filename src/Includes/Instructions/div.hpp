@@ -13,7 +13,7 @@ class Div : public IInstruction {
         Div& operator=(const Div& other) = default;
         virtual ~Div() = default;
 
-        virtual void execute(const IOperand*) {};
+        virtual void execute(const IOperand*);
         void execute() override;
 };
 

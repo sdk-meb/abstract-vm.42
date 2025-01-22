@@ -3,6 +3,7 @@
 
 Sub::Sub (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 
+void Sub::execute(const IOperand*) { }
 /**
  * @brief Executes the subtraction operation on the top two values of the stack.
  * 
@@ -20,7 +21,7 @@ Sub::Sub (std::stack<const IOperand*>& stack): IInstruction(stack) {}
 void Sub::execute() {
 
     if (this->__stack.size() < 2)
-        throw InterpretationExept("ERROR: Not enough elements on the stack -> Instruction(Sub) ? " + this->__stack.size());
+        throw InterpretationExept("ERROR: Not enough elements on the stack -> Instruction(Sub)");
 
     const IOperand* operand1 = this->__stack.top();
     this->__stack.pop();

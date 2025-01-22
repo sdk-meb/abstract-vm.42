@@ -2,6 +2,7 @@
 
 Assert::Assert(std::stack<const IOperand *> &stack) : IInstruction(stack) {}
 
+void Assert::execute() {}
 /**
  * @brief Asserts that the value at the top of the stack is equal to the one passed 
  * as a parameter to this instruction. If the assertion fails, the program execution 
@@ -21,12 +22,12 @@ Assert::Assert(std::stack<const IOperand *> &stack) : IInstruction(stack) {}
 void Assert::execute(const IOperand* val) {
 
     if (this->__stack.empty())
-        InterpretationExept("Failed: stack is empty -> Instruction(Assert) ?" + val->toString());
+        std::__throw_length_error ("Failed: stack is empty -> Instruction(Assert)");
 
     const IOperand* top = this->__stack.top();
     if (top->toString() not_eq val->toString())
-        InterpretationExept("Worning: incompatible values -> Instruction(Assert) ? " + val->toString() + " is not " + top->toString());
+        std::__throw_domain_error ("Worning: incompatible values -> Instruction(Assert)");
     if (top->getType() not_eq val->getType())
-        InterpretationExept("Worning: incompatible types -> Instruction(Assert) ? " + eOperandstoString(val->getType()) + " is not " + eOperandstoString(top->getType()));
+        std::__throw_domain_error ("Worning: incompatible types -> Instruction(Assert)");
 
 }

@@ -42,19 +42,18 @@ void Logger::loghandler(const int& line_number, const std::smatch &smatch) {
     auto t = std::time(nullptr);
     auto tm = *std::localtime(&t);
     std::ostringstream oss;
-    oss << std::put_time(&tm, "%Y-%m-%dT%H:%M:%S");
+    oss << std::put_time(&tm, "%H:%M:%S");
     std::string timestamp = oss.str();
 
     // # TODO: need json validation
     log_file << "{"
-           << "\"Timestamp\": \"" << timestamp << "\", "
-           << "\"Message\": \"" << smatch[2] << "\", "
+           << "\"Line\": " << line_number << ", "
            << "\"Log\": {"
            << "\"Level\": \"" << smatch[1] << "\", "
+           << "\"Message\": \"" << smatch[2] << "\", "
            << "\"Funtype\": \"" << smatch[3] <<"\", "
-           << "\"Function\": \"" << smatch[4] <<"\", "
-           << "\"Cause\": \"" << smatch[5] <<"\", "
-           << "\"Line\": " << line_number
-           << "} "
+           << "\"Function\": \"" << smatch[4] <<"\" "
+           << "}, "
+           << "\"Timestamp\": \"" << timestamp << "\" "
            << "}" << std::endl;
 }
