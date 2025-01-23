@@ -3,6 +3,7 @@
 
 
 #include <Operands/operand.tpp>
+#include <limits>
 
 #ifndef INT8_HPP 
 #define INT8_HPP

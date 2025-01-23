@@ -74,7 +74,7 @@ std::smatch extract_instr(const std::string &line) {
 }
 
 std::smatch extract_value_format(const std::string& reset_line) {
-    std::regex valueformatRegex(R"(^\s*(int8|int16|int32|float|double)\s*\(\s*([-+]?\d*\.?\d+)\s*\)\s*(\s.*)?$)");
+    std::regex valueformatRegex(R"(^\s*(int8|int16|int32|float|double)\s*\(\s*([-+]?\d+(?:\.\d+)?(?:[eE][-+]\d+)?\s*)\)\s*(\s.*)?$)");
     std::smatch match;
 
     if (not std::regex_match(reset_line, match, valueformatRegex))
@@ -106,8 +106,8 @@ void absvm::interpret(const std::string &line) {
         std::smatch match;
 
         match = extract_value_format(reset);
-        type = match[1];
-        value = match[2];
+        type = trim(match[1]);
+        value = trim(match[2]);
         reset = match[3];
     } 
     if (reset.size())
