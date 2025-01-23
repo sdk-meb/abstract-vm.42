@@ -39,7 +39,19 @@ template <typename _OP>
             std::max(this->getPrecision(), rhs.getPrecision()));
 
         double result = static_cast<double>(this->_value) + std::stod(rhs.toString());
-        return Factory().createOperand(resultType, std::to_string(result));
+        IOperand* _operand = nullptr;
+        
+        while ( not _operand ) {
+
+            try {
+                _operand = const_cast<IOperand*>(Factory().createOperand(resultType, std::to_string(result)));
+            } catch (const std::out_of_range& e) {
+                if (resultType == eOperandType::Double)
+                    __throw_exception_again e;
+            }
+            resultType = static_cast<eOperandType>(static_cast<int>(resultType) + 1);
+        }
+        return _operand;
     }
 
 template <typename _OP>
@@ -48,7 +60,19 @@ template <typename _OP>
             std::max(this->getPrecision(), rhs.getPrecision()));
 
         double result = this->_value - std::stod(rhs.toString());
-        return Factory().createOperand(resultType, std::to_string(result));
+        IOperand* _operand = nullptr;
+        
+        while ( not _operand ) {
+
+            try {
+                _operand = const_cast<IOperand*>(Factory().createOperand(resultType, std::to_string(result)));
+            } catch (const std::out_of_range& e) {
+                if (resultType == eOperandType::Double)
+                    __throw_exception_again e;
+            }
+            resultType = static_cast<eOperandType>(static_cast<int>(resultType) + 1);
+        }
+        return _operand;
     }
 
 template <typename _OP>
@@ -57,7 +81,19 @@ template <typename _OP>
             std::max(this->getPrecision(), rhs.getPrecision()));
 
         double result = this->_value * std::stod(rhs.toString());
-        return Factory().createOperand(resultType, std::to_string(result));
+        IOperand* _operand = nullptr;
+        
+        while ( not _operand ) {
+
+            try {
+                _operand = const_cast<IOperand*>(Factory().createOperand(resultType, std::to_string(result)));
+            } catch (const std::out_of_range& e) {
+                if (resultType == eOperandType::Double)
+                    __throw_exception_again e;
+            }
+            resultType = static_cast<eOperandType>(static_cast<int>(resultType) + 1);
+        }
+        return _operand;
     }
 
 template <typename _OP>
