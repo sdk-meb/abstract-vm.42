@@ -64,7 +64,7 @@ auto absvm::commands(const std::string& commnad) {
 
 
 std::smatch extract_instr(const std::string &line) {
-    std::regex instrRegex(R"(^\s*(pop|dump|push|assert|add|sub|mul|div|mod|print|exit)\s*(\s.*)?$)");
+    std::regex instrRegex(R"(^\s*(pop|dump|push|assert|add|sub|mul|div|mod|print|exit)\s*([\s;].*)?$)");
     std::smatch match;
 
     if (not std::regex_match(line, match, instrRegex))
@@ -98,7 +98,7 @@ void absvm::interpret(const std::string &line) {
         std::smatch match;
         match = extract_instr(line);
         command = match[1];
-        reset = match[2].str();
+        reset = trim(match[2].str());
         static std::unordered_set<std::string> commands_need_value = {"assert", "push"};
         need_value = commands_need_value.find(command) not_eq commands_need_value.end();
     }
@@ -108,9 +108,9 @@ void absvm::interpret(const std::string &line) {
         match = extract_value_format(reset);
         type = trim(match[1]);
         value = trim(match[2]);
-        reset = match[3];
+        reset = trim(match[3]);
     } 
-    if (reset.size())
+    if (reset.size() and reset[0] not_eq ';')
         __throw_traced std::invalid_argument("ERROR: Too many arguments > lexer(interpret) ? " + std::string(need_value ? "need one value" : "no value needent"));
 
     auto exce_command = commands(command);

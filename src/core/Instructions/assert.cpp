@@ -25,10 +25,14 @@ void Assert::execute(const IOperand* val) {
         __throw_traced std::length_error("ERROR: Stack length > Instruction(Assert) ? stack empty");
 
     const IOperand* top = this->__stack.top();
-    if (top->toString() not_eq val->toString())
-        __throw_traced std::domain_error("WARNING: Incompatible values > Instruction(Assert) ? " + top->toString() + " not eq " + val->toString());
 
     if (top->getType() not_eq val->getType())
         __throw_traced std::domain_error("WARNING: Incompatible types > Instruction(Assert) ? " + eOperandstoString(top->getType()) + " is not " + eOperandstoString(val->getType()));
+
+    const double v_top = stod(top->toString());
+    const double v_val = stod(val->toString());
+
+    if (v_top not_eq v_val)
+        __throw_traced std::domain_error("WARNING: Incompatible values > Instruction(Assert) ? " + top->toString() + " not eq " + val->toString());
 
 }
