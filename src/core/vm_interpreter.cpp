@@ -8,7 +8,7 @@ auto absvm::commands(const std::string& commnad) {
             auto operand = Factory().createOperand(__pair.first, __pair.second);
             try {
                 Push(this->stack).execute(operand);
-            } catch (const std::exception &e) {
+            } catch (const std::logic_error &e) {
                 delete operand;
                 __throw_exception_again e;
             }
@@ -19,7 +19,7 @@ auto absvm::commands(const std::string& commnad) {
             try {
                 Assert(this->stack).execute(tmp_operand);
                 delete tmp_operand;
-            } catch (const std::exception &e) {
+            } catch (const std::logic_error &e) {
                 delete tmp_operand;
                 __throw_exception_again e;
             }
@@ -111,7 +111,7 @@ void absvm::interpret(const std::string &line) {
         reset = match[3];
     } 
     if (reset.size())
-        __throw_traced std::invalid_argument("Error: Too many arguments > lexer(interpret) ? " + std::string(need_value ? "need one value" : "no value needent"));
+        __throw_traced std::invalid_argument("ERROR: Too many arguments > lexer(interpret) ? " + std::string(need_value ? "need one value" : "no value needent"));
 
     auto exce_command = commands(command);
 

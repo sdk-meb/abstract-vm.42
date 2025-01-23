@@ -26,9 +26,9 @@ void Assert::execute(const IOperand* val) {
 
     const IOperand* top = this->__stack.top();
     if (top->toString() not_eq val->toString())
-        __throw_traced std::domain_error("WARNING: Incompatible values > Instruction(Assert) ? msg");
+        __throw_traced std::domain_error("WARNING: Incompatible values > Instruction(Assert) ? " + top->toString() + " not eq " + val->toString());
 
     if (top->getType() not_eq val->getType())
-        __throw_traced std::domain_error("WARNING: Incompatible types > Instruction(Assert) ? msg");
+        __throw_traced std::domain_error("WARNING: Incompatible types > Instruction(Assert) ? " + eOperandstoString(top->getType()) + " is not " + eOperandstoString(val->getType()));
 
 }

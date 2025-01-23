@@ -4,7 +4,7 @@
 absvm::absvm() { 
     try {
         processLines(std::cin);
-    } catch(const std::exception& e) {
+    } catch(const std::logic_error& e) {
         delete_stack();
         __throw_exception_again e;
     }
@@ -32,12 +32,10 @@ absvm::absvm(const std::string &filename) {
 
     try {
         processLines(source);
-    } catch(const std::exception& e) {
-        source.close();
+    } catch(const std::logic_error& e) {
         delete_stack();
         __throw_exception_again e;
     }
-    source.close();
 }
 
 void absvm::processLines(std::istream& input) {
@@ -53,7 +51,7 @@ void absvm::processLines(std::istream& input) {
                 return;
             if (not line.empty() and line[0] not_eq ';')
                 interpret(line);
-        } catch (const std::exception& e) {
+        } catch (const std::logic_error& e) {
 
             __throw_interpreter(e.what(), clines);  //throw agin when msg not match InterpretationExept pattern
         }
@@ -71,13 +69,13 @@ void absvm::processLines(std::ifstream& input) {
         try {
             if (not line.empty() and line[0] not_eq ';')
                 interpret(line);
-        } catch (const std::exception& e) {
+        } catch (const std::logic_error& e) {
 
             __throw_interpreter(e.what(), clines); //throw agin when msg not match InterpretationExept pattern
         }
     }
 
-    __throw_interpreter("ERROR: Terminate the execution of the current program appears exit instruction -> absvm(processLines)", clines);
+    __throw_interpreter("ERROR: Terminate the execution > lexer(processLines) ? program appears exit instruction", clines);
     std::__throw_system_error(42);
 }
 

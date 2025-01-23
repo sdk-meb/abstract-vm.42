@@ -27,7 +27,7 @@ const char* InterpretationExept::_tracing_what(const int& line_number) const {
                 /**
                  * @attention make sure all abs-vm @exception match the pattern above 
                  */
-                __throw_exception_again std::underflow_error(this->what()); // TODO: if it no matched format means the catched exeption is from system not from abs-vm
+                __throw_exception_again std::logic_error(this->what()); // TODO: if it no matched format means the catched exeption is from system not from abs-vm
         }
 
         Logger::loghandler(line_number, matches);

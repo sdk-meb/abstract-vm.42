@@ -25,7 +25,7 @@ void Div::execute() {
 
 
     if (this->__stack.top()->toString() == "0") 
-        __throw_traced std::invalid_argument("ERROR: Division by zero > Instruction(Div) ? Undefined Behavior");
+        __throw_traced std::domain_error("ERROR: Division by zero > Instruction(Div) ? Undefined Behavior");
 
     const IOperand* operand1 = this->__stack.top();
     this->__stack.pop();
